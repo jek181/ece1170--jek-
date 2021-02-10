@@ -39,7 +39,9 @@ import java.util.*;
 public class TestAlphaCiv {
   private Game game;
 
-  /** Fixture for alphaciv testing. */
+  /**
+   * Fixture for alphaciv testing.
+   */
   @Before
   public void setUp() {
     game = new GameImpl();
@@ -50,11 +52,75 @@ public class TestAlphaCiv {
   public void shouldBeRedAsStartingPlayer() {
     assertThat(game, is(notNullValue()));
     // TODO: reenable the assert below to get started...
-    // assertThat(game.getPlayerInTurn(), is(Player.RED));
+     assertThat(game.getPlayerInTurn(), is(Player.RED));
+     assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+     assertThat(game.getPlayerInTurn(), is(Player.RED));
   }
 
+
+  @Test
+  public void shouldBe4000BCStartingGame() {
+    assertThat(game, is(notNullValue()));
+    assertThat(game.getAge(), is(-4000));
+  }
+
+
+  @Test
+  public void shouldBeBlueAsNextPlayer() {
+    assertThat(game, is(notNullValue()));
+
+    assertThat(game.getPlayerInTurn(), is(Player.RED));
+    assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+  }
+
+  /*@Test
+  public void shouldBeAMountain() {
+    Position p = new Position(2,2);
+
+    assertEquals(GameConstants.MOUNTAINS, game.getTileAt(p).getTypeString());
+    assertEquals(new Position(2,2), game.getTileAt(p).getPosition());
+  }
+*/
+
+  @Test
+  public void roundShouldChangeBy100Years() {
+    assertThat(game, is(notNullValue()));
+
+    assertThat(game.getPlayerInTurn(), is(Player.RED));
+    assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+    assertThat(game.getAge(), is(-3900));
+    assertThat(game.getPlayerInTurn(), is(Player.RED));
+    assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+    assertThat(game.getAge(), is(-3800));
+
+  }
+
+  @Test
+  public void shouldBeRedAsWinner() {
+    assertThat(game, is(notNullValue()));
+
+    for(int i=0; i<10; i++)
+    {
+      assertThat(game.getPlayerInTurn(), is(Player.RED));
+      assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+    }
+
+    assertThat(game.getWinner(), is(Player.RED));
+
+  }
+
+
+
+
+
+
+
+
+
+
+
   /** REMOVE ME. Not a test of HotCiv, just an example of what
-      matchers the hamcrest library has... */
+   matchers the hamcrest library has... */
   @Test
   public void shouldDefinetelyBeRemoved() {
     // Matching null and not null values

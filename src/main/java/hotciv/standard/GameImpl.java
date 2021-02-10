@@ -30,17 +30,98 @@ import hotciv.framework.*;
 */
 
 public class GameImpl implements Game {
-  public Tile getTileAt( Position p ) { return null; }
-  public Unit getUnitAt( Position p ) { return null; }
-  public City getCityAt( Position p ) { return null; }
-  public Player getPlayerInTurn() { return null; }
-  public Player getWinner() { return null; }
-  public int getAge() { return 0; }
-  public boolean moveUnit( Position from, Position to ) {
+
+  int redCount = 0;
+  int blueCount = 0;
+  int age = -4000;
+
+  int endOfTurnCount = 0;
+
+  public Tile getTileAt( Position p )
+  {
+
+    return null;
+  }
+
+  public Unit getUnitAt( Position p )
+  {
+    return null;
+  }
+
+  public City getCityAt( Position p )
+  {
+    return null;
+  }
+
+  public Player getPlayerInTurn()
+  {
+    if(redCount == blueCount)
+    {
+      endOfTurn();
+      return Player.RED;
+    }
+    else
+    {
+      endOfTurn();
+      return Player.BLUE;
+    }
+  }
+
+  public Player getWinner()
+  {
+    if(getAge() == -3000)
+    {
+      return Player.RED;
+    }
+
+    return null;
+  }
+
+  public int getAge()
+  {
+
+    return age;
+  }
+
+  public boolean moveUnit( Position from, Position to )
+  {
     return false;
   }
-  public void endOfTurn() {}
-  public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
-  public void changeProductionInCityAt( Position p, String unitType ) {}
-  public void performUnitActionAt( Position p ) {}
+
+  public void endOfTurn()
+  {
+      if(redCount == blueCount)
+      {
+        redCount++;
+      }
+      else
+      {
+        blueCount++;
+      }
+
+      endOfTurnCount++;
+
+    if(endOfTurnCount > 0)
+    {
+      if(endOfTurnCount % 2 == 0)
+      {
+        age = age + 100;
+      }
+    }
+
+  }
+
+  public void changeWorkForceFocusInCityAt( Position p, String balance )
+  {
+
+  }
+
+  public void changeProductionInCityAt( Position p, String unitType )
+  {
+
+  }
+  public void performUnitActionAt( Position p )
+  {
+
+  }
 }
