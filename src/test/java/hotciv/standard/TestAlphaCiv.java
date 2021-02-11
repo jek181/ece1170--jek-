@@ -73,14 +73,46 @@ public class TestAlphaCiv {
     assertThat(game.getPlayerInTurn(), is(Player.BLUE));
   }
 
-  /*@Test
-  public void shouldBeAMountain() {
+  @Test
+  public void shouldBeAMountain2_2() {
     Position p = new Position(2,2);
 
-    assertEquals(GameConstants.MOUNTAINS, game.getTileAt(p).getTypeString());
-    assertEquals(new Position(2,2), game.getTileAt(p).getPosition());
+    assertThat(GameConstants.MOUNTAINS, is(game.getTileAt(p).getTypeString()));
+    assertThat(new Position(2,2), is(game.getTileAt(p).getPosition()));
   }
-*/
+
+  @Test
+  public void shouldBeAHill0_1() {
+    Position p = new Position(0,1);
+
+    assertThat(GameConstants.HILLS, is(game.getTileAt(p).getTypeString()));
+    assertThat(new Position(0,1), is(game.getTileAt(p).getPosition()));
+  }
+
+  @Test
+  public void shouldBeAnOcean1_0() {
+    Position p = new Position(1,0);
+
+    assertThat(GameConstants.OCEANS, is(game.getTileAt(p).getTypeString()));
+    assertThat(new Position(1,0), is(game.getTileAt(p).getPosition()));
+  }
+
+  @Test
+  public void shouldBeAPlain4_5() {
+    Position p = new Position(4,5);
+
+    assertThat(GameConstants.PLAINS, is(game.getTileAt(p).getTypeString()));
+    //assertEquals(new Position(4,5), game.getTileAt(p).getPosition());
+  }
+
+  @Test
+  public void shouldBeAPlain10_14() {
+    Position p = new Position(10,14);
+    Tile t = game.getTileAt(p);
+
+    assertEquals(GameConstants.PLAINS, game.getTileAt(p).getTypeString());
+    assertThat(t, is(notNullValue()));
+  }
 
   @Test
   public void roundShouldChangeBy100Years() {
