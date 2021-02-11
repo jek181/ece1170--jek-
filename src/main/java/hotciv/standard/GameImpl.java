@@ -2,6 +2,8 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import java.util.*;
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -35,12 +37,53 @@ public class GameImpl implements Game {
   int blueCount = 0;
   int age = -4000;
 
+  //this.Tile StandardTile;
+
+  private Game game;
+  private Tile[][] tiles;
+  private Unit[][] units;
+  private City[][] cities;
+
   int endOfTurnCount = 0;
+
+  private HashMap<Position, Tile> Map;
+
+  public GameImpl()
+  {
+    /*Map.put(new Position(0,1), new StandardTile(GameConstants.HILLS));
+    CreateTile.put(new Position(1,0), GameConstants.OCEANS);
+    CreateTile.put(new Position(0,1), GameConstants.MOUNTAINS);
+
+    for(int i=0; i < GameConstants.WORLDSIZE; i++) {
+      for (int j = 0; j < GameConstants.WORLDSIZE; j++) {
+        CreateTile.put(new Position(i, j), GameConstants.PLAINS);
+      }
+    }*/
+
+    this.tiles = new TileImpl[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
+
+    for(int i=0; i < GameConstants.WORLDSIZE; i++) {
+      for (int j = 0; j < GameConstants.WORLDSIZE; j++) {
+        if (i == 0 && j == 1) {
+          tiles[i][j] = new TileImpl(GameConstants.HILLS);
+        } else if (i == 1 && j == 0) {
+          tiles[i][j] = new TileImpl(GameConstants.OCEANS);
+        } else if (i == 2 && j == 2) {
+          tiles[i][j] = new TileImpl(GameConstants.MOUNTAINS);
+        } else {
+          tiles[i][j] = new TileImpl(GameConstants.PLAINS);
+        }
+      }
+    }
+
+
+
+
+  }
 
   public Tile getTileAt( Position p )
   {
-
-    return null;
+    return tiles[p.getRow()][p.getColumn()];
   }
 
   public Unit getUnitAt( Position p )
