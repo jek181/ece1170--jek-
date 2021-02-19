@@ -33,35 +33,35 @@ import java.util.*;
 
 public class GameImpl implements Game {
 
-  int redCount = 0;
-  int blueCount = 0;
-  int age = -4000;
-
-  //this.Tile StandardTile;
-
+  private Player playerInTurn;
+  private int round;
+  private int age;
   private Game game;
+  private City c;
   private Tile[][] tiles;
   private Unit[][] units;
   private City[][] cities;
-
-  int endOfTurnCount = 0;
+  private boolean firstRound;
 
   private HashMap<Position, Tile> Map;
+  Player RED = Player.RED;
+  Player BLUE = Player.BLUE;
 
   public GameImpl()
   {
-    /*Map.put(new Position(0,1), new StandardTile(GameConstants.HILLS));
-    CreateTile.put(new Position(1,0), GameConstants.OCEANS);
-    CreateTile.put(new Position(0,1), GameConstants.MOUNTAINS);
 
-    for(int i=0; i < GameConstants.WORLDSIZE; i++) {
-      for (int j = 0; j < GameConstants.WORLDSIZE; j++) {
-        CreateTile.put(new Position(i, j), GameConstants.PLAINS);
-      }
-    }*/
+    playerInTurn = RED;
+    round = 1;
+    age = -4000;
+    firstRound = true;
+
 
     this.tiles = new TileImpl[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
+    this.units = new UnitImpl[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
+    this.cities = new CityImpl[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
 
+
+    //This Places The Tiles
     for(int i=0; i < GameConstants.WORLDSIZE; i++) {
       for (int j = 0; j < GameConstants.WORLDSIZE; j++) {
         if (i == 0 && j == 1) {
@@ -76,6 +76,15 @@ public class GameImpl implements Game {
       }
     }
 
+    //This Places The Units
+    units[2][0] = new UnitImpl(GameConstants.ARCHER, RED);
+    units[4][3] = new UnitImpl(GameConstants.SETTLER, RED);
+    units[3][2] = new UnitImpl(GameConstants.LEGION, BLUE);
+
+    //This Places The Cities
+    cities[4][1] = new CityImpl(BLUE);
+    cities[1][1] = new CityImpl(RED);
+
 
 
 
@@ -88,26 +97,17 @@ public class GameImpl implements Game {
 
   public Unit getUnitAt( Position p )
   {
-    return null;
+    return units[p.getRow()][p.getColumn()];
   }
 
   public City getCityAt( Position p )
   {
-    return null;
+    return cities[p.getRow()][p.getColumn()];
   }
 
   public Player getPlayerInTurn()
   {
-    if(redCount == blueCount)
-    {
-      endOfTurn();
-      return Player.RED;
-    }
-    else
-    {
-      endOfTurn();
-      return Player.BLUE;
-    }
+      return playerInTurn;
   }
 
   public Player getWinner()
@@ -122,49 +122,119 @@ public class GameImpl implements Game {
 
   public int getAge()
   {
-
     return age;
   }
 
   public boolean moveUnit( Position from, Position to )
   {
+    Unit u = getUnitAt(from);
+
+    //To make sure there is an actual unit
+    if(u != null)
+    {
+      Tile t = getTileAt(to);
+      String type = t.getTypeString();
+      boolean Mountain = type.equals(GameConstants.MOUNTAINS);
+      boolean Ocean = type.equals(GameConstants.OCEANS);
+
+      //Making sure the unit can't be placed on a mountain or in an ocean
+      if(Mountain == true || Ocean == true)
+      {
+        return false;
+      }
+
+      //Making sure the player is moving their own unit
+      if(u.getOwner() != playerInTurn)
+      {
+        return false;
+      }
+
+      //Checking to make sure the unit doesn't move more than their move count
+      //Gets the distance between the rows and columns 'from' to 'to'
+      //Only can move to an adjacent block
+      int row = from.getRow() - to.getRow();
+      int col = from.getColumn() - to.getColumn();
+      int dist;
+      if(row>col || row == col)
+      {
+        dist = row;
+      }
+      else
+      {
+        dist = col;
+      }
+      if(getUnitAt(to) != null)
+      {
+        if(getUnitAt(to).getOwner() == u.getOwner())
+        {
+          return false;
+        }
+        else
+        {
+          if(u.getTypeString() == GameConstants.ARCHER && u.getOwner() == RED)
+          {
+            performUnitActionAt(to);
+            units[to.getRow()][to.getColumn()] = u;
+          }
+        }
+
+      }
+      else
+      {
+        u.setMoveCount(0);
+        //Set the unit at its new position
+        units[to.getRow()][to.getColumn()] = u;
+        //Remove the unit from the old position
+        units[from.getRow()][from.getColumn()] = null;
+      }
+
+      return true;
+
+    }
     return false;
   }
 
   public void endOfTurn()
   {
-      if(redCount == blueCount)
-      {
-        redCount++;
-      }
-      else
-      {
-        blueCount++;
-      }
+     if(playerInTurn == RED)
+     {
+       playerInTurn = BLUE;
+     }
+     else
+     {
+       playerInTurn = RED;
+       age += 100;
+       round += 1;
+       Position p1 = new Position(4, 1);
+       Position p2 = new Position(1, 1);
+       City c1 = getCityAt(p1);
+       City c2 = getCityAt(p2);
 
-      endOfTurnCount++;
-
-    if(endOfTurnCount > 0)
-    {
-      if(endOfTurnCount % 2 == 0)
-      {
-        age = age + 100;
-      }
-    }
+       c1.addTreasury(6);
+       c2.addTreasury(6);
+     }
 
   }
 
   public void changeWorkForceFocusInCityAt( Position p, String balance )
   {
-
+      City c = getCityAt(p);
+      c.setWorkforceFocus(balance);
   }
 
   public void changeProductionInCityAt( Position p, String unitType )
   {
-
+        City c = getCityAt(p);
+        c.setProduction(unitType);
   }
   public void performUnitActionAt( Position p )
   {
+      if(getUnitAt(p).getOwner() == BLUE)
+      {
+        //Remove Blue Unit as Attack By Red
+        units[p.getRow()][p.getColumn()] = null;
 
+      }
   }
+
 }
