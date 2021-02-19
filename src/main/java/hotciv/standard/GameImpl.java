@@ -31,6 +31,10 @@ import java.util.*;
 
 */
 
+/**
+ * This is the hotfix for release 2.1
+ */
+
 public class GameImpl implements Game {
 
   private Player playerInTurn;
