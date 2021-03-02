@@ -1,8 +1,11 @@
 package hotciv.variants;
 
 
+import hotciv.framework.Game;
 import hotciv.framework.Position;
 
-public interface ActionStrategy {
-    public void performUnitAction(Position p);
+public interface UnitActionStrategy {
+    public boolean unitAction(Position p, Game currentGame);
+
+
 }

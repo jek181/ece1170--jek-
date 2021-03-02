@@ -2,18 +2,19 @@ package hotciv.variants;
 
 
 import hotciv.framework.*;
+
 import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
 
 
-public class AlphaWorldLayoutStrategy implements WorldGeneration {
+public class AlphaWorldLayoutStrategy implements WorldGeneration{
 
     int size = GameConstants.WORLDSIZE;
 
     public Tile[][] Tiles()
     {
-        Tile[][] tiles = new Tile[size][size];
+        Tile[][] tiles = new TileImpl[size][size];
 
         //This Places The Tiles
         for(int i=0; i < GameConstants.WORLDSIZE; i++) {
@@ -34,9 +35,9 @@ public class AlphaWorldLayoutStrategy implements WorldGeneration {
 
     }
 
-    public City[][] City()
+    public City[][] Cities()
     {
-        City[][] cities = new City[size][size];
+        City[][] cities = new CityImpl[size][size];
 
         cities[4][1] = new CityImpl(Player.BLUE);
         cities[1][1] = new CityImpl(Player.RED);
@@ -46,7 +47,7 @@ public class AlphaWorldLayoutStrategy implements WorldGeneration {
 
     public Unit[][] Units()
     {
-        Unit[][] units =new Unit[size][size];
+        Unit[][] units =new UnitImpl[size][size];
 
         //This Places The Units
         units[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED);

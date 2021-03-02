@@ -1,7 +1,9 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.variants.*;
 
+import javax.print.attribute.standard.MediaSize;
 import java.util.*;
 
 /** Skeleton implementation of HotCiv.
@@ -46,51 +48,30 @@ public class GameImpl implements Game {
   private Unit[][] units;
   private City[][] cities;
   private boolean firstRound;
+  private UnitActionStrategy unitActionStrategy;
+ private WorldAgingStrategy worldAgingStrategy;
+ private WinnerStrategy winnerStrategy;
 
-  private HashMap<Position, Tile> Map;
+
+
+
   Player RED = Player.RED;
   Player BLUE = Player.BLUE;
 
-  public GameImpl()
+  public GameImpl(Strategy strategy)
   {
 
     playerInTurn = RED;
     round = 1;
     age = -4000;
     firstRound = true;
+    this.unitActionStrategy = strategy.makeGammaActionStrategy();
+    this.worldAgingStrategy = strategy.makeBetaAgingStrategy();
+    this.winnerStrategy = strategy.makeAlphaWinnerStrategy();
 
-
-    this.tiles = new TileImpl[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
-    this.units = new UnitImpl[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
-    this.cities = new CityImpl[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
-
-
-    //This Places The Tiles
-    for(int i=0; i < GameConstants.WORLDSIZE; i++) {
-      for (int j = 0; j < GameConstants.WORLDSIZE; j++) {
-        if (i == 0 && j == 1) {
-          tiles[i][j] = new TileImpl(GameConstants.HILLS);
-        } else if (i == 1 && j == 0) {
-          tiles[i][j] = new TileImpl(GameConstants.OCEANS);
-        } else if (i == 2 && j == 2) {
-          tiles[i][j] = new TileImpl(GameConstants.MOUNTAINS);
-        } else {
-          tiles[i][j] = new TileImpl(GameConstants.PLAINS);
-        }
-      }
-    }
-
-    //This Places The Units
-    units[2][0] = new UnitImpl(GameConstants.ARCHER, RED);
-    units[4][3] = new UnitImpl(GameConstants.SETTLER, RED);
-    units[3][2] = new UnitImpl(GameConstants.LEGION, BLUE);
-
-    //This Places The Cities
-    cities[4][1] = new CityImpl(BLUE);
-    cities[1][1] = new CityImpl(RED);
-
-
-
+    this.units = strategy.makeAlphaWorldLayoutStrategy().Units();
+    this.tiles = strategy.makeAlphaWorldLayoutStrategy().Tiles();
+    this.cities = strategy.makeAlphaWorldLayoutStrategy().Cities();
 
   }
 
@@ -116,12 +97,7 @@ public class GameImpl implements Game {
 
   public Player getWinner()
   {
-    if(getAge() == -3000)
-    {
-      return Player.RED;
-    }
-
-    return null;
+    return winnerStrategy.getWinner(this);
   }
 
   public int getAge()
@@ -132,6 +108,7 @@ public class GameImpl implements Game {
   public boolean moveUnit( Position from, Position to )
   {
     Unit u = getUnitAt(from);
+    UnitImpl unit = (UnitImpl) u;
 
     //To make sure there is an actual unit
     if(u != null)
@@ -167,6 +144,12 @@ public class GameImpl implements Game {
       {
         dist = col;
       }
+      if(dist > u.getMoveCount())
+      {
+        return false;
+      }
+
+
       if(getUnitAt(to) != null)
       {
         if(getUnitAt(to).getOwner() == u.getOwner())
@@ -175,9 +158,9 @@ public class GameImpl implements Game {
         }
         else
         {
-          if(u.getTypeString() == GameConstants.ARCHER && u.getOwner() == RED)
+          if((u.getTypeString() == GameConstants.ARCHER) || (u.getTypeString() == GameConstants.LEGION))
           {
-            performUnitActionAt(to);
+            units[to.getRow()][to.getColumn()] = null;
             units[to.getRow()][to.getColumn()] = u;
           }
         }
@@ -185,12 +168,13 @@ public class GameImpl implements Game {
       }
       else
       {
-        u.setMoveCount(0);
+        unit.setMoveCount(0);
         //Set the unit at its new position
         units[to.getRow()][to.getColumn()] = u;
         //Remove the unit from the old position
         units[from.getRow()][from.getColumn()] = null;
       }
+
 
       return true;
 
@@ -207,7 +191,7 @@ public class GameImpl implements Game {
      else
      {
        playerInTurn = RED;
-       age += 100;
+       age = worldAgingStrategy.calculateAge(age);
        round += 1;
        Position p1 = new Position(4, 1);
        Position p2 = new Position(1, 1);
@@ -233,12 +217,53 @@ public class GameImpl implements Game {
   }
   public void performUnitActionAt( Position p )
   {
-      if(getUnitAt(p).getOwner() == BLUE)
-      {
-        //Remove Blue Unit as Attack By Red
-        units[p.getRow()][p.getColumn()] = null;
-
-      }
+      unitActionStrategy.unitAction(p, this);
   }
+
+  //Get cities using the util.lists
+  public List<City> getCities() {
+    List<City> cities = new ArrayList<City>();
+    for(int row=0; row < GameConstants.WORLDSIZE; row++)
+    {
+      for(int col=0; col < GameConstants.WORLDSIZE; col++)
+      {
+        Position p = new Position(row, col);
+        City c = getCityAt(p);
+        if(c != null)
+        {
+          cities.add(c);
+        }
+      }
+    }
+    return cities;
+  }
+
+  public void eraseUnit(Position p)
+  {
+    units[p.getRow()][p.getColumn()] = null;
+  }
+
+  public void addCity(Position p, City c)
+  {
+    cities[p.getRow()][p.getColumn()] = c;
+  }
+
+  //Conquer city functions for Beta Winner Strategy
+  public void conquerRedCity()
+  {
+    Position red = new Position(1,1);
+    cities[red.getRow()][red.getColumn()] = null;
+    cities[red.getRow()][red.getColumn()] = new CityImpl(BLUE);
+
+  }
+
+  public void conquerBlueCity()
+  {
+    Position blue = new Position(4,1);
+    cities[blue.getRow()][blue.getColumn()] = null;
+    cities[blue.getRow()][blue.getColumn()] = new CityImpl(RED);
+
+  }
+
 
 }

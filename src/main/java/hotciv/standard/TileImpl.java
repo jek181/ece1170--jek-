@@ -4,8 +4,6 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 
-
-
 public class TileImpl implements Tile {
 
     String type;
