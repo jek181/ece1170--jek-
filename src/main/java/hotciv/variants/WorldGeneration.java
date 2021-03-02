@@ -1,6 +1,9 @@
-package hotciv.framework;
+package hotciv.variants;
 
 
+import hotciv.framework.City;
+import hotciv.framework.Tile;
+import hotciv.framework.Unit;
 
 public interface WorldGeneration {
 

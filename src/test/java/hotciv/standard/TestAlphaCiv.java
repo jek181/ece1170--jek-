@@ -2,7 +2,11 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import hotciv.variants.*;
 import org.junit.*;
+
+import javax.lang.model.type.NullType;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -39,12 +43,14 @@ import java.util.*;
 public class TestAlphaCiv {
   private Game game;
 
+
   /**
    * Fixture for alphaciv testing.
    */
   @Before
   public void setUp() {
-    game = new GameImpl();
+    game = new GameImpl(new Strategy());
+
   }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
@@ -90,6 +96,7 @@ public class TestAlphaCiv {
   public void shouldBeAMountain2_2() {
     assertThat(game, is(notNullValue()));
     Position p = new Position(2,2);
+
 
     assertThat(GameConstants.MOUNTAINS, is(game.getTileAt(p).getTypeString()));
     assertThat(new Position(2,2), is(game.getTileAt(p).getPosition()));
@@ -440,14 +447,5 @@ public class TestAlphaCiv {
     assertThat(GameConstants.ARCHER, is(game.getUnitAt(Legion).getTypeString()));
 
   }
-
-
-
-
-
-
-
-
-
 
 }

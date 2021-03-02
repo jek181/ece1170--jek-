@@ -16,7 +16,6 @@ public class CityImpl implements City{
         this.owner = owner;
         production = 0;
 
-
     }
 
     public void setProduction(String unitType)

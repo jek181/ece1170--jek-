@@ -1,7 +1,6 @@
 package hotciv.standard;
 
-import hotciv.variants.WorldAgingStrategy;
-import hotciv.variants.BetaWorldAgingStrategy;
+import hotciv.variants.*;
 import hotciv.framework.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,15 +13,19 @@ import static org.junit.Assert.assertThat;
 
 
 
-public class TestBetaStrategy {
+public class TestBetaCivStrategy {
+  private Game game;
   private WorldAgingStrategy was;
+  private WinnerStrategy betaws;
 
   /**
-   * Fixture for betacivstrat testing.
+   * Fixture for betaciv testing.
    */
   @Before
   public void setUp() {
+    game = new GameImpl(new Strategy());
     was = new BetaWorldAgingStrategy();
+    betaws = new BetaWinnerStrategy();
   }
 
 
@@ -84,6 +87,49 @@ public class TestBetaStrategy {
     assertThat(4501, is(was.calculateAge(4500)));
   }
 
+  @Test
+  public void shouldBeNoWinnerAtStart() {
+    assertThat(game, is(notNullValue()));
+    assertThat(betaws, is(notNullValue()));
+
+    assertThat(null, is(betaws.getWinner(game)));
+  }
+
+  @Test
+  public void shouldBePlayerBlueWins() {
+    assertThat(game, is(notNullValue()));
+    assertThat(betaws, is(notNullValue()));
+
+    Position blueCity = new Position(4,1);
+    Position redCity = new Position(1,1);
+
+
+    assertThat(Player.BLUE, is(game.getCityAt(blueCity).getOwner()));
+    assertThat(Player.RED, is(game.getCityAt(redCity).getOwner()));
+
+    ((GameImpl) game).conquerRedCity();
+
+    assertThat(Player.BLUE, is(game.getCityAt(redCity).getOwner()));
+    assertThat(Player.BLUE, is(betaws.getWinner(game)));
+  }
+
+  @Test
+  public void shouldBePlayerRedWins() {
+    assertThat(game, is(notNullValue()));
+    assertThat(betaws, is(notNullValue()));
+
+    Position blueCity = new Position(4,1);
+    Position redCity = new Position(1,1);
+
+
+    assertThat(Player.BLUE, is(game.getCityAt(blueCity).getOwner()));
+    assertThat(Player.RED, is(game.getCityAt(redCity).getOwner()));
+
+    ((GameImpl) game).conquerBlueCity();
+
+    assertThat(Player.RED, is(game.getCityAt(blueCity).getOwner()));
+    assertThat(Player.RED, is(betaws.getWinner(game)));
+  }
 
 
 }
