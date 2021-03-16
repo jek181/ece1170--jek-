@@ -107,79 +107,82 @@ public class GameImpl implements Game {
 
   public boolean moveUnit( Position from, Position to )
   {
-    Unit u = getUnitAt(from);
-    UnitImpl unit = (UnitImpl) u;
+      Unit movingUnit = getUnitAt(from);
+      UnitImpl unit = (UnitImpl) movingUnit;
 
-    //To make sure there is an actual unit
-    if(u != null)
-    {
       Tile t = getTileAt(to);
       String type = t.getTypeString();
       boolean Mountain = type.equals(GameConstants.MOUNTAINS);
       boolean Ocean = type.equals(GameConstants.OCEANS);
 
-      //Making sure the unit can't be placed on a mountain or in an ocean
-      if(Mountain == true || Ocean == true)
-      {
-        return false;
-      }
 
-      //Making sure the player is moving their own unit
-      if(u.getOwner() != playerInTurn)
+      //To make sure there is an actual unit
+      if(movingUnit != null)
       {
-        return false;
-      }
-
-      //Checking to make sure the unit doesn't move more than their move count
-      //Gets the distance between the rows and columns 'from' to 'to'
-      //Only can move to an adjacent block
-      int row = from.getRow() - to.getRow();
-      int col = from.getColumn() - to.getColumn();
-      int dist;
-      if(row>col || row == col)
-      {
-        dist = row;
-      }
-      else
-      {
-        dist = col;
-      }
-      if(dist > u.getMoveCount())
-      {
-        return false;
-      }
-
-
-      if(getUnitAt(to) != null)
-      {
-        if(getUnitAt(to).getOwner() == u.getOwner())
-        {
-          return false;
-        }
-        else
-        {
-          if((u.getTypeString() == GameConstants.ARCHER) || (u.getTypeString() == GameConstants.LEGION))
+          //Making sure the unit can't be placed on a mountain or in an ocean
+          if(Mountain || Ocean)
           {
-            units[to.getRow()][to.getColumn()] = null;
-            units[to.getRow()][to.getColumn()] = u;
+              return false;
           }
-        }
 
+          Player unitOwner = movingUnit.getOwner();
+          //Making sure the player is moving their own unit
+          if(unitOwner != playerInTurn)
+          {
+              return false;
+          }
+
+          //Checking to make sure the unit doesn't move more than their move count
+          //Gets the distance between the rows and columns 'from' to 'to'
+          //Only can move to an adjacent block
+          int row = from.getRow() - to.getRow();
+          int col = from.getColumn() - to.getColumn();
+          int dist;
+          if(row>col || row == col)
+          {
+              dist = row;
+          }
+          else
+          {
+              dist = col;
+          }
+
+          if(dist > movingUnit.getMoveCount())
+          {
+             return false;
+          }
+
+          boolean Archer = movingUnit.getTypeString().equals(GameConstants.ARCHER);
+          boolean Legion = movingUnit.getTypeString().equals(GameConstants.LEGION);
+          if(getUnitAt(to) != null)
+          {
+             if(getUnitAt(to).getOwner() == unitOwner)
+             {
+                return false;
+             }
+             //If the unit in the position you want to move to isn't the same owner, "Attack"
+             else
+             {
+                 if(Archer || Legion)
+                 {
+                     units[to.getRow()][to.getColumn()] = null;
+                     units[to.getRow()][to.getColumn()] = movingUnit;
+                 }
+             }
+
+          }
+          else
+          {
+              unit.setMoveCount(0);
+              //Set the unit at its new position
+              units[to.getRow()][to.getColumn()] = movingUnit;
+              //Remove the unit from the old position
+              units[from.getRow()][from.getColumn()] = null;
+          }
+
+          return true;
       }
-      else
-      {
-        unit.setMoveCount(0);
-        //Set the unit at its new position
-        units[to.getRow()][to.getColumn()] = u;
-        //Remove the unit from the old position
-        units[from.getRow()][from.getColumn()] = null;
-      }
-
-
-      return true;
-
-    }
-    return false;
+      return false;
   }
 
   public void endOfTurn()

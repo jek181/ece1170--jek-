@@ -15,28 +15,33 @@ public class GammaUnitActionStrategy implements UnitActionStrategy {
         Unit unit = currentGame.getUnitAt(p);
         GameImpl game = (GameImpl) currentGame;
 
-        if(currentGame.getUnitAt(p) == null)
+        //If there is no unit
+        if(unit == null)
         {
             return false;
         }
 
-        if(unit.getTypeString() == GameConstants.SETTLER)
-        {
-            if(currentGame.getCityAt(p) != null)
-            {
-                return false;
-            }
+        boolean Settler = unit.getTypeString().equals(GameConstants.SETTLER);
+        boolean Archer  = unit.getTypeString().equals(GameConstants.ARCHER);
 
+        //If the unit is a settler
+        if(Settler)
+        {
+            //Erase the unit
             game.eraseUnit(p);
+            //Add a city belonging to the units owner
             game.addCity(p,new CityImpl(unit.getOwner()));
 
             return true;
         }
 
-        if(unit.getTypeString() == GameConstants.ARCHER)
+        //If the unit is an archer
+        if(Archer)
         {
-            UnitImpl u = (UnitImpl) unit;
-            u.setFortify();
+            //Acquire the unit implementation
+            UnitImpl unitArcher = (UnitImpl) unit;
+            //Set the fortification of the archer
+            unitArcher.setFortify();
             return true;
         }
         return false;
