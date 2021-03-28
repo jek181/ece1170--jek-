@@ -9,12 +9,18 @@ public class CityImpl implements City{
     private int production;
     private String focus;
     private Game game;
+    private int food;
+    private int pop;
 
 
     public CityImpl(Player owner)
     {
         this.owner = owner;
         production = 0;
+        pop = 1;
+        food = 0;
+        focus = GameConstants.productionFocus;
+        produce = GameConstants.SETTLER;
 
     }
 
@@ -35,7 +41,7 @@ public class CityImpl implements City{
 
     public int getSize()
     {
-        return 1;
+        return pop;
     }
 
     public int getTreasury()
@@ -56,5 +62,25 @@ public class CityImpl implements City{
     public void addTreasury(int treasure)
     {
         production += treasure;
+    }
+
+    public void addProduction(int amount)
+    {
+        production += amount;
+    }
+
+    public void addFood(int amount)
+    {
+        food += amount;
+    }
+
+    public int getFood()
+    {
+        return food;
+    }
+
+    public void addPopulation(int amount)
+    {
+        pop += amount;
     }
 }

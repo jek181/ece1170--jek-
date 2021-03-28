@@ -10,6 +10,7 @@ public class UnitImpl implements Unit {
     private int moveCount=1;
     private int strength;
 
+
     public UnitImpl(String type, Player owner)
     {
         this.type = type;
@@ -34,20 +35,24 @@ public class UnitImpl implements Unit {
 
     public int getMoveCount()
     {
+        if(fortify)
+        {
+            return 0;
+        }
         return moveCount;
     }
 
     public int getDefensiveStrength()
     {
-        if(type == GameConstants.SETTLER)
+        if(type.equals(GameConstants.SETTLER))
         {
             strength = 3;
         }
-        if(type == GameConstants.LEGION)
+        if(type.equals(GameConstants.LEGION))
         {
             strength = 2;
         }
-        else
+        else if(type.equals(GameConstants.ARCHER))
         {
             strength = 3;
         }
@@ -60,7 +65,21 @@ public class UnitImpl implements Unit {
 
     public int getAttackingStrength()
     {
-        return 0;
+        strength = 0;
+        if(type.equals(GameConstants.ARCHER))
+        {
+            strength = 2;
+        }
+        if(type.equals(GameConstants.LEGION))
+        {
+            strength = 4;
+        }
+        if(type.equals(GameConstants.SETTLER))
+        {
+            strength = 0;
+        }
+
+        return strength;
     }
 
     public void setFortify() {

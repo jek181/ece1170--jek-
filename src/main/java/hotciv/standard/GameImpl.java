@@ -1,5 +1,6 @@
 package hotciv.standard;
 
+import hotciv.factories.GameFactory;
 import hotciv.framework.*;
 import hotciv.variants.*;
 
@@ -51,6 +52,10 @@ public class GameImpl implements Game {
   private UnitActionStrategy unitActionStrategy;
  private WorldAgingStrategy worldAgingStrategy;
  private WinnerStrategy winnerStrategy;
+ private AttackStrategy attackStrategy;
+ private ProductionStrategy productionStrategy;
+ private PopulationStrategy populationStrategy;
+ private List<Battle> battles;
 
 
 
@@ -58,20 +63,26 @@ public class GameImpl implements Game {
   Player RED = Player.RED;
   Player BLUE = Player.BLUE;
 
-  public GameImpl(Strategy strategy)
+  public GameImpl(GameFactory factory, WorldGeneration world)
   {
 
     playerInTurn = RED;
     round = 1;
     age = -4000;
     firstRound = true;
-    this.unitActionStrategy = strategy.makeGammaActionStrategy();
-    this.worldAgingStrategy = strategy.makeBetaAgingStrategy();
-    this.winnerStrategy = strategy.makeAlphaWinnerStrategy();
 
-    this.units = strategy.makeAlphaWorldLayoutStrategy().Units();
-    this.tiles = strategy.makeAlphaWorldLayoutStrategy().Tiles();
-    this.cities = strategy.makeAlphaWorldLayoutStrategy().Cities();
+    this.unitActionStrategy = factory.makeUnitActionStrategy();
+    this.worldAgingStrategy = factory.makeAgeStrategy();
+    this.winnerStrategy = factory.makeWinnerStrategy();
+    this.attackStrategy = factory.makeAttackStrategy();
+    this.productionStrategy = factory.makeProductionStrategy();
+    this.populationStrategy = factory.makePopulationStrategy();
+
+    this.units = world.Units();
+    this.tiles = world.Tiles();
+    this.cities = world.Cities();
+
+    battles = new ArrayList<Battle>();
 
   }
 
@@ -105,6 +116,10 @@ public class GameImpl implements Game {
     return age;
   }
 
+  private boolean attack(Position attacker, Position defender)
+  {
+      return attackStrategy.attack(this, attacker, defender);
+  }
   public boolean moveUnit( Position from, Position to )
   {
       Unit movingUnit = getUnitAt(from);
@@ -152,8 +167,6 @@ public class GameImpl implements Game {
              return false;
           }
 
-          boolean Archer = movingUnit.getTypeString().equals(GameConstants.ARCHER);
-          boolean Legion = movingUnit.getTypeString().equals(GameConstants.LEGION);
           if(getUnitAt(to) != null)
           {
              if(getUnitAt(to).getOwner() == unitOwner)
@@ -163,11 +176,23 @@ public class GameImpl implements Game {
              //If the unit in the position you want to move to isn't the same owner, "Attack"
              else
              {
-                 if(Archer || Legion)
-                 {
-                     units[to.getRow()][to.getColumn()] = null;
-                     units[to.getRow()][to.getColumn()] = movingUnit;
-                 }
+                boolean successfulAttack = attack(from, to);
+
+                if(successfulAttack) {
+                    setUnitAt(to, movingUnit);
+
+                    battles.add(new Battle(getUnitAt(from).getOwner(), true, round));
+
+                    if (getCityAt(to) != null) {
+                        addCity(to, new CityImpl(movingUnit.getOwner()));
+                    }
+                }
+
+                 battles.add(new Battle(getUnitAt(from).getOwner(), false, round));
+                 unit.setMoveCount(0);
+
+                 units[from.getRow()][from.getColumn()] = null;
+
              }
 
           }
@@ -178,6 +203,9 @@ public class GameImpl implements Game {
               units[to.getRow()][to.getColumn()] = movingUnit;
               //Remove the unit from the old position
               units[from.getRow()][from.getColumn()] = null;
+              if(getCityAt(to) != null){
+                  addCity(to, new CityImpl(unit.getOwner()));
+              }
           }
 
           return true;
@@ -185,24 +213,35 @@ public class GameImpl implements Game {
       return false;
   }
 
+  public List<Battle> getBattles()
+  {
+      return battles;
+  }
+
   public void endOfTurn()
   {
      if(playerInTurn == RED)
      {
        playerInTurn = BLUE;
+       if(!firstRound)
+       {
+            produce(BLUE);
+       }
      }
      else
      {
        playerInTurn = RED;
        age = worldAgingStrategy.calculateAge(age);
+       produce(RED);
        round += 1;
-       Position p1 = new Position(4, 1);
+       firstRound = false;
+       /*Position p1 = new Position(4, 1);
        Position p2 = new Position(1, 1);
        City c1 = getCityAt(p1);
        City c2 = getCityAt(p2);
 
        c1.addTreasury(6);
-       c2.addTreasury(6);
+       c2.addTreasury(6);*/
      }
 
   }
@@ -268,5 +307,95 @@ public class GameImpl implements Game {
 
   }
 
+  public int getCurrentRound()
+  {
+      return round;
+  }
+
+  private void setUnitAt(Position p, Unit u)
+  {
+      units[p.getRow()][p.getColumn()] = u;
+  }
+
+  public List<Position> getPositions(Position center, int dist)
+  {
+      List<Position> result = new ArrayList<Position>();
+      int distance = dist;
+      int width = GameConstants.WORLDSIZE;
+      int height = GameConstants.WORLDSIZE;
+
+      if(dist == 0)
+      {
+          result.add(center);
+      }
+      else if(dist > 0)
+      {
+          int row = center.getRow();
+          int col = center.getColumn();;
+
+          if(row-dist >= 0)
+          {
+              for(int i = col; i<col+dist && i<width; i++) {
+                  result.add(new Position(row-dist, i));
+              }
+          }
+          if(col+dist < width)
+          {
+              int rowStart = Math.max(0, row-dist);
+              for(int i= rowStart; i<row+dist && i<height; i++)
+              {
+                  result.add(new Position(i, col+dist));
+              }
+          }
+          if (row+dist < height)
+          {
+              int columnStart = Math.min(width - 1, col+dist);
+              for (int i = columnStart; i>col-dist && i >= 0; i--){
+                  result.add(new Position(row+dist,i));
+              }
+          }
+          if (col-dist >= 0) {
+              // start from when the world exists
+              int rowStart = Math.min(height-1, row+dist);
+              for (int i = rowStart; i > row-dist && i >= 0; i--) {
+                  result.add(new Position(i,col-dist));
+              } if ( row - dist >= 0) {
+                  for (int i = col-dist; i < col; i++) {
+                      result.add(new Position(row-dist,i));
+                  }
+              }
+          }
+      }
+      return result;
+  }
+
+  private void produce(Player p)
+  {
+      for(int i = 0; i< GameConstants.WORLDSIZE; i++) {
+          for (int j = 0; j < GameConstants.WORLDSIZE; j++) {
+              Position pos = new Position(i, j);
+              City city = getCityAt(pos);
+
+              if (city != null) {
+                  CityImpl c = (CityImpl) city;
+                  if (c.getOwner() == p) {
+                      Production pro = productionStrategy.Produce(this, pos);
+                      c.addTreasury(pro.getProduce());
+                      c.addFood(pro.getFood());
+                      String prod = c.getProduction();
+                  }
+
+                  int population = c.getSize();
+                  int nextPopAtFood = populationStrategy.populationIncrease(population);
+                  int limit = populationStrategy.populationLimit();
+
+                  if (c.getFood() >= nextPopAtFood && limit > population) {
+                      c.addPopulation(1);
+                      c.addFood(-c.getFood());
+                  }
+              }
+          }
+      }
+  }
 
 }

@@ -23,4 +23,8 @@ public class Strategy {
 
     public WorldGeneration makeAlphaWorldLayoutStrategy() { return new AlphaWorldLayoutStrategy(); }
 
+    /*public WorldGeneration makeEpsilonWorldLayoutStrategy() { return new EpsilonWorldLayoutStrategy(String[] Tiles,
+            String[] Cities, String[] Units); }*/
+
+
 }
