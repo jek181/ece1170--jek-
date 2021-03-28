@@ -1,5 +1,6 @@
 package hotciv.standard;
 
+import hotciv.factories.AlphaFactory;
 import hotciv.framework.*;
 
 import hotciv.variants.*;
@@ -49,7 +50,7 @@ public class TestAlphaCiv {
    */
   @Before
   public void setUp() {
-    game = new GameImpl(new Strategy());
+    game = new GameImpl(new AlphaFactory(), new AlphaWorldLayoutStrategy());
 
   }
 

@@ -1,5 +1,6 @@
 package hotciv.standard;
 
+import hotciv.factories.BetaFactory;
 import hotciv.variants.*;
 import hotciv.framework.*;
 import org.junit.Before;
@@ -23,7 +24,7 @@ public class TestBetaCivStrategy {
    */
   @Before
   public void setUp() {
-    game = new GameImpl(new Strategy());
+    game = new GameImpl(new BetaFactory(), new AlphaWorldLayoutStrategy());
     was = new BetaWorldAgingStrategy();
     betaws = new BetaWinnerStrategy();
   }
