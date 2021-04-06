@@ -72,4 +72,6 @@ public interface City {
 
   public void addTreasury(int treasure);
 
+  public void decreasePopulation(int amount);
+
 }

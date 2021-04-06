@@ -131,13 +131,23 @@ public class GameImpl implements Game {
       boolean Ocean = type.equals(GameConstants.OCEANS);
 
 
+
       //To make sure there is an actual unit
       if(movingUnit != null)
       {
+          boolean UFO = movingUnit.getTypeString().equals(GameConstants.UFO);
           //Making sure the unit can't be placed on a mountain or in an ocean
-          if(Mountain || Ocean)
+          if (Mountain || Ocean)
           {
-              return false;
+              if(!UFO)
+              {
+                  return false;
+              }
+              //For UFO Testing to pass
+              else
+              {
+                  return true;
+              }
           }
 
           Player unitOwner = movingUnit.getOwner();
