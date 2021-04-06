@@ -52,14 +52,19 @@ public class UnitImpl implements Unit {
         {
             strength = 2;
         }
-        else if(type.equals(GameConstants.ARCHER))
+        if(type.equals(GameConstants.ARCHER))
         {
             strength = 3;
+            if(fortify)
+            {
+                return strength*2;
+            }
         }
-        if(fortify)
+        if(type.equals(GameConstants.UFO))
         {
-            return strength*2;
+            strength = 8;
         }
+
         return strength;
     }
 
@@ -77,6 +82,10 @@ public class UnitImpl implements Unit {
         if(type.equals(GameConstants.SETTLER))
         {
             strength = 0;
+        }
+        if(type.equals(GameConstants.UFO))
+        {
+            strength = 1;
         }
 
         return strength;
