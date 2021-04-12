@@ -1,6 +1,7 @@
 package hotciv.variants;
 
 import hotciv.framework.*;
+import hotciv.framework.Game;
 
 
 public class AlphaUnitActionStrategy implements UnitActionStrategy{

@@ -3,8 +3,6 @@ package hotciv.standard;
 import hotciv.factories.ThetaFactory;
 import hotciv.framework.*;
 import hotciv.framework.Position;
-import hotciv.standard.*;
-import hotciv.variants.GammaUnitActionStrategy;
 import hotciv.variants.ThetaWorldLayoutStrategy;
 import hotciv.variants.ThetaUnitActionStrategy;
 import hotciv.variants.UnitActionStrategy;

@@ -6,12 +6,8 @@ import hotciv.framework.*;
 import hotciv.variants.*;
 import org.junit.*;
 
-import javax.lang.model.type.NullType;
-
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
-
-import java.util.*;
 
 /** Skeleton class for AlphaCiv test cases
 

@@ -1,5 +1,6 @@
 package hotciv.variants;
 
+import hotciv.framework.Game;
 import hotciv.standard.GameImpl;
 import hotciv.framework.*;
 

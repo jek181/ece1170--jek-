@@ -2,6 +2,7 @@ package hotciv.variants;
 
 import java.util.List;
 import hotciv.framework.*;
+import hotciv.framework.Game;
 import hotciv.standard.GameImpl;
 
 

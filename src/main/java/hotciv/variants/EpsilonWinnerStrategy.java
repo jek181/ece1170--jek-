@@ -4,8 +4,6 @@ import hotciv.framework.*;
 import hotciv.standard.*;
 import java.util.*;
 
-import hotciv.factories.EpsilonFactory;
-
 public class EpsilonWinnerStrategy implements WinnerStrategy {
 
     int round;

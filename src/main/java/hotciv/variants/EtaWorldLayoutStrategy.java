@@ -68,8 +68,8 @@ public class EtaWorldLayoutStrategy implements WorldGeneration{
         Unit[][] units =new UnitImpl[size][size];
 
         //This Places The Units
-       // units[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED);
-       // units[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
+        units[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED);
+        units[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
        // units[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
 
         return units;
