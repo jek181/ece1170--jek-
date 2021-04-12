@@ -1,6 +1,5 @@
 package hotciv.standard;
 
-import hotciv.factories.GameFactory;
 import hotciv.factories.GammaFactory;
 import hotciv.framework.*;
 import hotciv.variants.*;

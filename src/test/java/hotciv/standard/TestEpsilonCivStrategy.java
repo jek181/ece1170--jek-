@@ -1,7 +1,6 @@
 package hotciv.standard;
 
 import hotciv.factories.AlphaFactory;
-import hotciv.factories.EpsilonFactory;
 import hotciv.framework.Game;
 import hotciv.framework.Player;
 import hotciv.framework.Position;

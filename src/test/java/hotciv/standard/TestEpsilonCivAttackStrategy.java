@@ -1,6 +1,5 @@
 package hotciv.standard;
 
-import hotciv.factories.EpsilonFactory;
 import hotciv.factories.AlphaFactory;
 import hotciv.framework.Game;
 import hotciv.framework.GameConstants;

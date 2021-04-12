@@ -2,6 +2,7 @@ package hotciv.variants;
 
 import hotciv.framework.*;
 import hotciv.standard.CityImpl;
+import hotciv.framework.Game;
 import hotciv.standard.GameImpl;
 import hotciv.standard.TileImpl;
 

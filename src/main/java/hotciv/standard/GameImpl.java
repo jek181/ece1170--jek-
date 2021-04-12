@@ -4,7 +4,6 @@ import hotciv.factories.GameFactory;
 import hotciv.framework.*;
 import hotciv.variants.*;
 
-import javax.print.attribute.standard.MediaSize;
 import java.util.*;
 
 /** Skeleton implementation of HotCiv.
