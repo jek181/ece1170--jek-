@@ -17,6 +17,7 @@ public class TestGammaCivStrategy {
 
   /**
    * Fixture for gammaciv testing.
+   * Uses Alpha World Layout
    */
   @Before
   public void setUp() {
@@ -25,6 +26,10 @@ public class TestGammaCivStrategy {
 
   }
 
+  /**
+   * Tests that when the settler does its unit action it
+   * should build a new city on the tile it performs
+   */
   @Test
   public void shouldBuildCityWithSettlerUnitAction() {
     Position p = new Position(4,3);
@@ -43,6 +48,10 @@ public class TestGammaCivStrategy {
 
   }
 
+  /**
+   * Tests that when the archer performs its unit action it should
+   * fortify and its defense strength increases
+   */
   @Test
   public void shouldRemoveFortification() {
     Position p = new Position(2,0);

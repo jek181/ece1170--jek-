@@ -20,6 +20,7 @@ public class TestZetaCivStrategy {
 
     /**
      * Fixture for zetaciv testing.
+     * Reference Epsilon World layout
      */
     @Before
     public void setUp() {
@@ -28,6 +29,10 @@ public class TestZetaCivStrategy {
 
     }
 
+    /**
+     * Tests that there should be a winner after a player conquers all the
+     * opposing players cities
+     */
     @Test
     public void shouldBeAWinnerAfterConqueringAllCities() {
         assertThat(game, is(notNullValue()));
@@ -50,6 +55,10 @@ public class TestZetaCivStrategy {
 
     }
 
+    /**
+     * Tests that when round 20 hits there is no longer a winner based on if all cities
+     * have been conquered
+     */
     @Test
     public void shouldNotBeAWinnerAfterRound20AfterConqueringAllCities() {
         assertThat(game, is(notNullValue()));
@@ -78,8 +87,12 @@ public class TestZetaCivStrategy {
     }
 
 
+    /**
+     * Tests that after round 20 there is only a winner when
+     * there are 3 successful attacks
+     */
     @Test
-    public void shouldBeAWinnerAfterRound20With2Attacks() {
+    public void shouldBeAWinnerAfterRound20With3Attacks() {
         assertThat(game, is(notNullValue()));
         assertThat(null, is(game.getWinner()));
 

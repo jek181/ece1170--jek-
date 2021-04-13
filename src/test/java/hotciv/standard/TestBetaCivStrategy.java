@@ -21,6 +21,7 @@ public class TestBetaCivStrategy {
 
   /**
    * Fixture for betaciv testing.
+   * Reference Alpha World layout
    */
   @Before
   public void setUp() {
@@ -30,6 +31,9 @@ public class TestBetaCivStrategy {
   }
 
 
+  /**
+   * Age should add 100 each round till BC era
+   */
   @Test
   public void shouldBe100YearRoundsTillBC() {
     assertThat(was, is(notNullValue()));
@@ -40,6 +44,9 @@ public class TestBetaCivStrategy {
 
   }
 
+  /**
+   * Age should be sequenced each round during the BC era
+   */
   @Test
   public void shouldBeSequenceRoundsAtBC() {
     assertThat(was, is(notNullValue()));
@@ -49,6 +56,9 @@ public class TestBetaCivStrategy {
     assertThat(50, is(was.calculateAge(1)));
   }
 
+  /**
+   * Age should add 50 each round during 50 AD to 1750
+   */
   @Test
   public void shouldBe50YearRoundsFrom50ADTo1750() {
     assertThat(was, is(notNullValue()));
@@ -58,6 +68,9 @@ public class TestBetaCivStrategy {
     assertThat(1750, is(was.calculateAge(1700)));
   }
 
+  /**
+   * Age should add 25 each round during 1750 to 1900
+   */
 
   @Test
   public void shouldBe25YearRoundsFrom1750To1900() {
@@ -68,7 +81,9 @@ public class TestBetaCivStrategy {
     assertThat(1900, is(was.calculateAge(1875)));
   }
 
-
+  /**
+   * Age should add 5 each round during 1900 to 1970
+   */
   @Test
   public void shouldBe5YearRoundsFrom1900To1970() {
     assertThat(was, is(notNullValue()));
@@ -78,7 +93,9 @@ public class TestBetaCivStrategy {
     assertThat(1970, is(was.calculateAge(1965)));
   }
 
-
+  /**
+   * Age should add 1 each round after 1970
+   */
   @Test
   public void shouldBe1YearRoundsAfter1970() {
     assertThat(was, is(notNullValue()));
@@ -88,6 +105,9 @@ public class TestBetaCivStrategy {
     assertThat(4501, is(was.calculateAge(4500)));
   }
 
+  /**
+   * Should be no winner at the start of the game
+   */
   @Test
   public void shouldBeNoWinnerAtStart() {
     assertThat(game, is(notNullValue()));
@@ -96,6 +116,9 @@ public class TestBetaCivStrategy {
     assertThat(null, is(betaws.getWinner(game)));
   }
 
+  /**
+   * Player blue should win after conquering all red cities
+   */
   @Test
   public void shouldBePlayerBlueWins() {
     assertThat(game, is(notNullValue()));
@@ -114,6 +137,9 @@ public class TestBetaCivStrategy {
     assertThat(Player.BLUE, is(betaws.getWinner(game)));
   }
 
+  /**
+   * Player red should win after conquering all blue cities
+   */
   @Test
   public void shouldBePlayerRedWins() {
     assertThat(game, is(notNullValue()));

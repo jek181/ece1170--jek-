@@ -23,6 +23,7 @@ public class TestEpsilonCivAttackStrategy {
 
     /**
      * Fixture for epsiloncivattack testing.
+     * Reference Epsilon World layout
      */
 
     /**
@@ -37,6 +38,10 @@ public class TestEpsilonCivAttackStrategy {
 
     }
 
+    /**
+     * Shows that you should be able to make the "die roll"
+     * anything
+     */
     @Test
     public void shouldBeAbleToFixDie()
     {
@@ -53,6 +58,11 @@ public class TestEpsilonCivAttackStrategy {
 
     }
 
+    /**
+     * Shows that during different positions if there is a unit
+     * the modified attack works with adding the right adjacency
+     * bonuses
+     */
    @Test
     public void ShouldGetCorrectAtkAdjacencyBonus() {
 
@@ -66,6 +76,11 @@ public class TestEpsilonCivAttackStrategy {
         assertThat(4, is(eas.modifiedAttack( game, p3 )));
     }
 
+    /**
+     * Shows that during different positions if there is a unit
+     * the modified defend works with adding the right adjacency
+     * bonuses
+     */
     @Test
     public void ShouldGetCorrectDefAdjBonus() {
 
@@ -79,8 +94,12 @@ public class TestEpsilonCivAttackStrategy {
         assertThat(2, is(eas.modifiedDefend( game, p3 )));
     }
 
+    /**
+     * Shows that the the attack and defense bonus is 3
+     * when a unit is in the city
+     */
     @Test
-    public void ShouldGrantAtkAndDefBonusOf3WhenInCity () {
+    public void ShouldGiveAtkAndDefBonusOf3WhenInCity () {
 
 
         Position p0 = new Position( 1, 0 );
@@ -101,8 +120,12 @@ public class TestEpsilonCivAttackStrategy {
 
     }
 
+    /**
+     * Shows that the defense and attack bonus should make the modified
+     * calculation double due to being in a forest or on a hill
+     */
     @Test
-    public void ShouldGrantTerrainDefAndAtkBonusOf2WhenForestOrHills() {
+    public void ShouldGiveTerrainDefAndAtkBonusOf2WhenForestOrHills() {
 
         Position p0 = new Position(4,2);
         assertThat(4, is(eas.modifiedDefend( game, p0 )));
@@ -122,6 +145,10 @@ public class TestEpsilonCivAttackStrategy {
 
     }
 
+    /**
+     * Gives the winner based on the die roll that modifies the
+     * attack values
+     */
     @Test
     public void ShouldGiveCorrectWinnerWhenRollingDies() {
 
