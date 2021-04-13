@@ -39,6 +39,7 @@ public class EpsilonAttackStrategy implements AttackStrategy{
         return terrainBonus*(unit.getDefensiveStrength() + adjacentBonus);
     }
 
+    //Adjacent friendly unit bonus method
     private int adjacentBonus(Game game, Position p, Unit u) {
         GameImpl currentGame = (GameImpl) game;
         List<Position> adjPositions = currentGame.getPositions(p, 1);
@@ -52,6 +53,7 @@ public class EpsilonAttackStrategy implements AttackStrategy{
         return bonus;
     }
 
+    //Terrain bonus method
     private int terrainBonus(Game game, Position p) {
         int bonus = 1;
         Tile t = game.getTileAt(p);

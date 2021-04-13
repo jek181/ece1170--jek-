@@ -244,13 +244,7 @@ public class GameImpl implements Game {
        produce(RED);
        round += 1;
        firstRound = false;
-       /*Position p1 = new Position(4, 1);
-       Position p2 = new Position(1, 1);
-       City c1 = getCityAt(p1);
-       City c2 = getCityAt(p2);
 
-       c1.addTreasury(6);
-       c2.addTreasury(6);*/
      }
 
   }
@@ -326,6 +320,9 @@ public class GameImpl implements Game {
       units[p.getRow()][p.getColumn()] = u;
   }
 
+  /*Returns valid game positions from the distance you are away from the
+    center position you are at
+   */
   public List<Position> getPositions(Position center, int dist)
   {
       List<Position> result = new ArrayList<Position>();
@@ -333,44 +330,50 @@ public class GameImpl implements Game {
       int width = GameConstants.WORLDSIZE;
       int height = GameConstants.WORLDSIZE;
 
-      if(dist == 0)
+      //Distance from position is 0, then just add the center
+      if(distance == 0)
       {
           result.add(center);
       }
-      else if(dist > 0)
+      //If there is a distance that is trying to be found
+      else if(distance > 0)
       {
           int row = center.getRow();
           int col = center.getColumn();;
 
-          if(row-dist >= 0)
+          //Checks to make sure the added positions is valid before adding in list
+          if(row-distance >= 0)
           {
-              for(int i = col; i<col+dist && i<width; i++) {
-                  result.add(new Position(row-dist, i));
+              for(int i = col; i<col+distance && i<width; i++) {
+                  result.add(new Position(row-distance, i));
               }
           }
-          if(col+dist < width)
+
+          if(col+distance < width)
           {
-              int rowStart = Math.max(0, row-dist);
-              for(int i= rowStart; i<row+dist && i<height; i++)
+              //start from when entering the world
+              int rowStart = Math.max(0, row-distance);
+              for(int i= rowStart; i<row+distance && i<height; i++)
               {
-                  result.add(new Position(i, col+dist));
+                  result.add(new Position(i, col+distance));
               }
           }
-          if (row+dist < height)
+          if (row+distance < height)
           {
-              int columnStart = Math.min(width - 1, col+dist);
-              for (int i = columnStart; i>col-dist && i >= 0; i--){
-                  result.add(new Position(row+dist,i));
+              //start from when entering the world
+              int columnStart = Math.min(width-1, col+distance);
+              for (int i = columnStart; i>col-distance && i >= 0; i--){
+                  result.add(new Position(row+distance,i));
               }
           }
-          if (col-dist >= 0) {
-              // start from when the world exists
-              int rowStart = Math.min(height-1, row+dist);
-              for (int i = rowStart; i > row-dist && i >= 0; i--) {
-                  result.add(new Position(i,col-dist));
-              } if ( row - dist >= 0) {
-                  for (int i = col-dist; i < col; i++) {
-                      result.add(new Position(row-dist,i));
+          if (col-distance >= 0) {
+              //start from when the world exists
+              int rowStart = Math.min(height-1, row+distance);
+              for (int i = rowStart; i > row-distance && i >= 0; i--) {
+                  result.add(new Position(i,col-distance));
+              } if ( row-distance >= 0) {
+                  for (int i = col-distance; i < col; i++) {
+                      result.add(new Position(row-distance,i));
                   }
               }
           }
@@ -398,6 +401,7 @@ public class GameImpl implements Game {
                   int nextPopAtFood = populationStrategy.populationIncrease(population);
                   int limit = populationStrategy.populationLimit();
 
+                  //If there is enough food for a population increase and the population is less than the limit
                   if (c.getFood() >= nextPopAtFood && limit > population) {
                       c.addPopulation(1);
                       c.addFood(-c.getFood());

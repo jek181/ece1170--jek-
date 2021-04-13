@@ -21,6 +21,7 @@ public class TestEpsilonCivStrategy {
 
   /**
    * Fixture for epsilonciv testing.
+   * Reference Epsilon World Layout
    */
   @Before
   public void setUp() {
@@ -31,6 +32,10 @@ public class TestEpsilonCivStrategy {
 
   }
 
+  /**
+   * Tests that after 3 successful attacks on opposing team
+   * there should be a winner
+   */
   @Test
   public void shouldBeAWinnerAfter3SuccessfulAttacks(){
     assertThat(game, is(notNullValue()));

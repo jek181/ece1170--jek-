@@ -23,6 +23,7 @@ public class EtaProductionStrategy implements ProductionStrategy{
 
         while(population > 0)
         {
+            //The production is based off just the city tile
             if(dist==0)
             {
                 food += 1;
@@ -31,9 +32,11 @@ public class EtaProductionStrategy implements ProductionStrategy{
             }
             else
             {
+
                 position = game.getPositions(p, dist);
                 population -= position.size();
                 int openFields;
+                //Shows how many fields/tiles can get produced from
                 if(population > 0)
                 {
                     openFields = position.size();
@@ -43,7 +46,9 @@ public class EtaProductionStrategy implements ProductionStrategy{
                     openFields = population + position.size();
                 }
 
+                //This goes to a method where the collection process collects for produce
                 Production pro = produceCollection(game, position, openFields, city);
+                //Add the collected food and produce
                 food += pro.getFood();
                 production += pro.getProduce();
             }
@@ -59,10 +64,13 @@ public class EtaProductionStrategy implements ProductionStrategy{
         List<Tile> tiles = new ArrayList<Tile>();
         int food = 0;
         int production = 0;
+        //Add the tiles collecting from
         for(Position pos : position)
         {
             tiles.add(game.getTileAt(pos));
         }
+
+        //Helps pick which tiles you should be collecting from depends on the work force focus
         if(city.getWorkforceFocus().equals(GameConstants.foodFocus))
         {
             Collections.sort(tiles, this::foodCompare);
@@ -73,6 +81,7 @@ public class EtaProductionStrategy implements ProductionStrategy{
         }
         for(int i=0; i<size; i++)
         {
+            //Adds the constants from collection
             Tile t = tiles.get(i);
             food += foodConstants(t.getTypeString());
             production += productionConstants(t.getTypeString());

@@ -21,6 +21,7 @@ public class TestEtaCivStrategy {
 
     /**
      * Fixture for etaciv testing.
+     * Reference to Eta World Layout
      */
     @Before
     public void setUp() {
@@ -28,6 +29,10 @@ public class TestEtaCivStrategy {
 
     }
 
+    /**
+     * Shows that when the algorithm is for production is the same or greater than
+     * the total food it should add one more person to the city
+     */
     @Test
     public void shouldAddPopulationCorrectly()
     {
@@ -47,6 +52,12 @@ public class TestEtaCivStrategy {
         assertThat(c.getFood(), is(0));
     }
 
+    /**
+     * This test shows that you can not go over the population limit
+     * by adding 8 population to a city for a total of 9, and then
+     * ending a round with enough food to add one more person, but
+     * getting the same 9 population
+     */
     @Test
     public void shouldNotGoOverPopulationLimit()
     {
@@ -63,6 +74,9 @@ public class TestEtaCivStrategy {
 
     }
 
+    /**
+     * Shows that production gets added correctly
+     */
     @Test
     public void ShouldGiveCorrectCityProduction() {
         CityImpl city = (CityImpl) game.getCityAt(new Position(0,1));
@@ -74,6 +88,10 @@ public class TestEtaCivStrategy {
         assertThat(1, is(city.getTreasury()));
     }
 
+    /**
+     * Shows that the food gathering was added correctly with a
+     * food focus work force
+     */
     @Test
     public void shouldHaveCorrectFoodFocus()
     {
@@ -88,6 +106,10 @@ public class TestEtaCivStrategy {
         assertThat(city.getTreasury(), is(1));
     }
 
+    /**
+     * Shows that the correct production was added with production focus
+     * work force
+     */
     @Test
     public void shouldHaveCorrectProductionFocus()
     {
