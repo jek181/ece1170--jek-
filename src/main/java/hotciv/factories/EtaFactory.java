@@ -1,6 +1,14 @@
 package hotciv.factories;
 
-import hotciv.variants.*;
+import hotciv.variants.alphaciv.AlphaAttackStrategy;
+import hotciv.variants.alphaciv.AlphaUnitActionStrategy;
+import hotciv.variants.alphaciv.AlphaWorldAgingStrategy;
+import hotciv.variants.betaciv.BetaWinnerStrategy;
+import hotciv.variants.epsilonciv.EpsilonWinnerStrategy;
+import hotciv.variants.etaciv.EtaPopulationStrategy;
+import hotciv.variants.etaciv.EtaProductionStrategy;
+import hotciv.variants.strategies.*;
+import hotciv.variants.zetaciv.ZetaWinnerStrategy;
 
 public class EtaFactory implements GameFactory {
 

@@ -1,6 +1,13 @@
 package hotciv.factories;
 
-import hotciv.variants.*;
+import hotciv.variants.betaciv.BetaWorldAgingStrategy;
+import hotciv.variants.epsilonciv.EpsilonAttackStrategy;
+import hotciv.variants.epsilonciv.EpsilonWinnerStrategy;
+import hotciv.variants.epsilonciv.RandomDie;
+import hotciv.variants.etaciv.EtaPopulationStrategy;
+import hotciv.variants.etaciv.EtaProductionStrategy;
+import hotciv.variants.gammaciv.GammaUnitActionStrategy;
+import hotciv.variants.strategies.*;
 
 public class SemiCiv implements GameFactory{
 

@@ -2,7 +2,7 @@ package hotciv.standard;
 
 import hotciv.factories.GameFactory;
 import hotciv.framework.*;
-import hotciv.variants.*;
+import hotciv.variants.strategies.*;
 
 import java.util.*;
 
@@ -229,13 +229,11 @@ public class GameImpl implements Game {
 
   public void endOfTurn()
   {
-     if(playerInTurn == RED)
-     {
-       playerInTurn = BLUE;
-       if(!firstRound)
-       {
-            produce(BLUE);
-       }
+     if(playerInTurn == RED) {
+         playerInTurn = BLUE;
+         if (!firstRound) {
+             produce(BLUE);
+         }
      }
      else
      {
@@ -320,8 +318,9 @@ public class GameImpl implements Game {
       units[p.getRow()][p.getColumn()] = u;
   }
 
-  /*Returns valid game positions from the distance you are away from the
-    center position you are at
+  /**
+   * Returns valid game positions from the distance you are away from the
+   * center position you are at
    */
   public List<Position> getPositions(Position center, int dist)
   {

@@ -5,7 +5,10 @@ import hotciv.framework.Game;
 import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
-import hotciv.variants.*;
+import hotciv.variants.epsilonciv.EpsilonAttackStrategy;
+import hotciv.variants.epsilonciv.EpsilonWorldLayoutStrategy;
+import hotciv.variants.epsilonciv.FixedDie;
+import hotciv.variants.strategies.WorldGeneration;
 import org.junit.Before;
 import org.junit.Test;
 

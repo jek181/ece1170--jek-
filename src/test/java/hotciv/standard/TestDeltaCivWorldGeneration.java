@@ -1,7 +1,8 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
-import hotciv.variants.*;
+import hotciv.variants.deltaciv.DeltaWorldLayoutStrategy;
+import hotciv.variants.strategies.WorldGeneration;
 import org.junit.Before;
 import org.junit.Test;
 

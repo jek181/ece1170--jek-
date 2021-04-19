@@ -4,7 +4,12 @@ import hotciv.factories.AlphaFactory;
 import hotciv.framework.Game;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
-import hotciv.variants.*;
+import hotciv.variants.epsilonciv.EpsilonAttackStrategy;
+import hotciv.variants.epsilonciv.EpsilonWinnerStrategy;
+import hotciv.variants.epsilonciv.EpsilonWorldLayoutStrategy;
+import hotciv.variants.epsilonciv.FixedDie;
+import hotciv.variants.strategies.AttackStrategy;
+import hotciv.variants.strategies.WinnerStrategy;
 import org.junit.Before;
 import org.junit.Test;
 

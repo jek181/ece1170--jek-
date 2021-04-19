@@ -1,6 +1,6 @@
 package hotciv.factories;
 
-import hotciv.variants.*;
+import hotciv.variants.strategies.*;
 
 public interface GameFactory {
 

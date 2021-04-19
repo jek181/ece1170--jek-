@@ -1,6 +1,10 @@
 package hotciv.factories;
 
-import hotciv.variants.*;
+import hotciv.variants.alphaciv.*;
+import hotciv.variants.betaciv.BetaWinnerStrategy;
+import hotciv.variants.epsilonciv.EpsilonWinnerStrategy;
+import hotciv.variants.strategies.*;
+import hotciv.variants.zetaciv.ZetaWinnerStrategy;
 
 public class ZetaFactory implements GameFactory {
 

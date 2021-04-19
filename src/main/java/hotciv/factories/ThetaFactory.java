@@ -1,7 +1,9 @@
 package hotciv.factories;
 
 
-import hotciv.variants.*;
+import hotciv.variants.alphaciv.*;
+import hotciv.variants.strategies.*;
+import hotciv.variants.thetaciv.ThetaUnitActionStrategy;
 
 public class ThetaFactory implements GameFactory {
 

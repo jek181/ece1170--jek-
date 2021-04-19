@@ -3,9 +3,9 @@ package hotciv.standard;
 import hotciv.factories.ThetaFactory;
 import hotciv.framework.*;
 import hotciv.framework.Position;
-import hotciv.variants.ThetaWorldLayoutStrategy;
-import hotciv.variants.ThetaUnitActionStrategy;
-import hotciv.variants.UnitActionStrategy;
+import hotciv.variants.thetaciv.ThetaWorldLayoutStrategy;
+import hotciv.variants.thetaciv.ThetaUnitActionStrategy;
+import hotciv.variants.strategies.UnitActionStrategy;
 import org.junit.Before;
 import org.junit.Test;
 

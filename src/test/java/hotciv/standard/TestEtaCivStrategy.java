@@ -6,7 +6,7 @@ import hotciv.framework.*;
 import hotciv.framework.GameConstants;
 
 import hotciv.framework.Position;
-import hotciv.variants.*;
+import hotciv.variants.etaciv.EtaWorldLayoutStrategy;
 import org.junit.Before;
 import org.junit.Test;
 

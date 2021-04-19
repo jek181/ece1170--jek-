@@ -68,10 +68,19 @@ public interface City {
    */
   public void setProduction(String unitType);
 
+  /**
+   * set which workforce to focus on for the city
+   * @param balance a string depicting the type of workforce
+   * focus from GameConstants
+   */
   public void setWorkforceFocus(String balance);
 
+  /**
+   * add treasury/production for the city when "collecting"
+   * @param treasure an integer value type to add into the
+   * city treasury
+   */
   public void addTreasury(int treasure);
 
-  public void decreasePopulation(int amount);
 
 }
