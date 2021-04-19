@@ -84,8 +84,5 @@ public class CityImpl implements City{
         pop += amount;
     }
 
-    public void decreasePopulation(int amount)
-    {
-        pop -= amount;
-    }
+
 }

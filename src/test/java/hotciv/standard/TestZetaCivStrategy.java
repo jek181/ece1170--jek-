@@ -5,7 +5,7 @@ import hotciv.factories.ZetaFactory;
 import hotciv.framework.Game;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
-import hotciv.variants.*;
+import hotciv.variants.epsilonciv.EpsilonWorldLayoutStrategy;
 import org.junit.Before;
 import org.junit.Test;
 

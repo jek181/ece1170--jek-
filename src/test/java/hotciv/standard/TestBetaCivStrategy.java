@@ -1,8 +1,12 @@
 package hotciv.standard;
 
 import hotciv.factories.BetaFactory;
-import hotciv.variants.*;
 import hotciv.framework.*;
+import hotciv.variants.alphaciv.AlphaWorldLayoutStrategy;
+import hotciv.variants.betaciv.BetaWinnerStrategy;
+import hotciv.variants.betaciv.BetaWorldAgingStrategy;
+import hotciv.variants.strategies.WinnerStrategy;
+import hotciv.variants.strategies.WorldAgingStrategy;
 import org.junit.Before;
 import org.junit.Test;
 

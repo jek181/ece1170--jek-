@@ -3,7 +3,7 @@ package hotciv.standard;
 import hotciv.factories.AlphaFactory;
 import hotciv.framework.*;
 
-import hotciv.variants.*;
+import hotciv.variants.alphaciv.AlphaWorldLayoutStrategy;
 import org.junit.*;
 
 import static org.junit.Assert.*;

@@ -1,6 +1,13 @@
 package hotciv.factories;
 
-import hotciv.variants.*;
+import hotciv.variants.alphaciv.AlphaPopulationStrategy;
+import hotciv.variants.alphaciv.AlphaProductionStrategy;
+import hotciv.variants.alphaciv.AlphaWorldAgingStrategy;
+import hotciv.variants.epsilonciv.EpsilonAttackStrategy;
+import hotciv.variants.epsilonciv.EpsilonWinnerStrategy;
+import hotciv.variants.epsilonciv.RandomDie;
+import hotciv.variants.gammaciv.GammaUnitActionStrategy;
+import hotciv.variants.strategies.*;
 
 public class EpsilonFactory implements GameFactory{
 

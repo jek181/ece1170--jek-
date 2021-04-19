@@ -1,6 +1,7 @@
 package hotciv.factories;
 
-import hotciv.variants.*;
+import hotciv.variants.alphaciv.*;
+import hotciv.variants.strategies.*;
 
 public class AlphaFactory implements GameFactory {
 

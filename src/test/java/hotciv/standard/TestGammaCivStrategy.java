@@ -2,7 +2,9 @@ package hotciv.standard;
 
 import hotciv.factories.GammaFactory;
 import hotciv.framework.*;
-import hotciv.variants.*;
+import hotciv.variants.alphaciv.AlphaWorldLayoutStrategy;
+import hotciv.variants.gammaciv.GammaUnitActionStrategy;
+import hotciv.variants.strategies.UnitActionStrategy;
 import org.junit.Before;
 import org.junit.Test;
 
