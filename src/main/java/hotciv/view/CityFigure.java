@@ -1,10 +1,11 @@
-package hotciv.framework;
+package hotciv.view;
 
+import hotciv.framework.City;
+import minidraw.standard.ImageFigure;
 
-/** Tile represents a single territory tile of a given type.
+import java.awt.*;
 
-    Responsibilities:
-    1) Know its type.
+/** A figure representing a city.
 
    This source code is from the book 
      "Flexible, Reliable Software:
@@ -31,15 +32,32 @@ package hotciv.framework;
 
  */
 
-public interface Tile {
+public class CityFigure extends ImageFigure {
+  private City city;
+  private Point position;
 
+  public CityFigure(City c, Point p) {
+    super("city", p); 
+    position = p;
+    city = c;
+  }
+  public void draw(Graphics g) {
+    // draw background color
+    g.setColor(GfxConstants.getColorForPlayer(city.getOwner()));
+    g.fillRect( position.x+1, position.y+1, 
+        GfxConstants.TILESIZE-2, 
+        GfxConstants.TILESIZE-2 );
 
-  /** return the tile type as a string. The set of
-   * valid strings are defined by the graphics
-   * engine, as they correspond to named image files.
-   * @return the type type as string
-   */
-  public String getTypeString();
+    super.draw(g);
 
+    g.setColor(Color.white);
 
+    Font font = new Font("Helvetica", Font.BOLD, 24);
+    g.setFont(font);
+    
+    String size = ""+city.getSize();
+    g.drawString(size, 
+        position.x + GfxConstants.CITY_SIZE_OFFSET_X, 
+        position.y + GfxConstants.CITY_SIZE_OFFSET_Y);
+  }
 }

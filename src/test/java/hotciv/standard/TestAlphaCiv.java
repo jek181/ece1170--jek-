@@ -94,9 +94,7 @@ public class TestAlphaCiv {
     assertThat(game, is(notNullValue()));
     Position p = new Position(2,2);
 
-
     assertThat(GameConstants.MOUNTAINS, is(game.getTileAt(p).getTypeString()));
-    assertThat(new Position(2,2), is(game.getTileAt(p).getPosition()));
   }
 
   /**
@@ -108,7 +106,6 @@ public class TestAlphaCiv {
     Position p = new Position(0,1);
 
     assertThat(GameConstants.HILLS, is(game.getTileAt(p).getTypeString()));
-    assertThat(new Position(0,1), is(game.getTileAt(p).getPosition()));
   }
 
   /**
@@ -120,7 +117,6 @@ public class TestAlphaCiv {
     Position p = new Position(1,0);
 
     assertThat(GameConstants.OCEANS, is(game.getTileAt(p).getTypeString()));
-    assertThat(new Position(1,0), is(game.getTileAt(p).getPosition()));
   }
 
   /**
@@ -132,7 +128,6 @@ public class TestAlphaCiv {
     Position p = new Position(4,5);
 
     assertThat(GameConstants.PLAINS, is(game.getTileAt(p).getTypeString()));
-    //assertEquals(new Position(4,5), game.getTileAt(p).getPosition());
   }
 
   /**

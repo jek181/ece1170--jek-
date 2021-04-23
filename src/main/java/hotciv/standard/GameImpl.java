@@ -410,4 +410,14 @@ public class GameImpl implements Game {
       }
   }
 
+    public void addObserver(GameObserver observer)
+    {
+
+    }
+
+    public void setTileFocus(Position position)
+    {
+
+    }
+
 }
