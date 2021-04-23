@@ -1,11 +1,9 @@
-package hotciv.framework;
+package hotciv.stub;
 
+import hotciv.framework.Position;
+import hotciv.framework.Tile;
 
-/** Tile represents a single territory tile of a given type.
-
-    Responsibilities:
-    1) Know its type.
-
+/** Implementation of Tile for the stub.
    This source code is from the book 
      "Flexible, Reliable Software:
        Using Patterns and Agile Development"
@@ -29,17 +27,13 @@ package hotciv.framework;
    See the License for the specific language governing permissions and
    limitations under the License.
 
- */
-
-public interface Tile {
+*/
 
 
-  /** return the tile type as a string. The set of
-   * valid strings are defined by the graphics
-   * engine, as they correspond to named image files.
-   * @return the type type as string
-   */
-  public String getTypeString();
-
-
+public class StubTile implements Tile {
+  private String type;
+  public StubTile(String type) {
+    this.type = type;
+  }
+  public String getTypeString() { return type; }
 }

@@ -78,6 +78,16 @@ public class LogDecorator implements Game {
 
     }
 
+    @Override
+    public void addObserver(GameObserver observer) {
+
+    }
+
+    @Override
+    public void setTileFocus(Position position) {
+
+    }
+
 
     public String getLog() {
         return sentence;
