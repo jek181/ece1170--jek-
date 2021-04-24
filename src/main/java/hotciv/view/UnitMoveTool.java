@@ -19,7 +19,7 @@ public class UnitMoveTool extends NullTool {
     boolean unit;
     Position from;
 
-    public UnitMoveTool(Game game, DrawingEditor drawingEditor)
+    public UnitMoveTool(DrawingEditor drawingEditor, Game game)
     {
         this.game = game;
         this.drawingEditor = drawingEditor;
