@@ -27,4 +27,5 @@ class HotCivFactory4 implements Factory {
     f.setEditable(false);
     return f;
   }
+
 }

@@ -1,7 +1,11 @@
 package hotciv.visual;
 
+import hotciv.factories.SemiCiv;
 import hotciv.framework.Game;
+import hotciv.standard.GameImpl;
 import hotciv.stub.StubGame1;
+import hotciv.variants.alphaciv.AlphaWorldLayoutStrategy;
+import hotciv.variants.deltaciv.DeltaWorldLayoutStrategy;
 import hotciv.view.MapView;
 import minidraw.framework.*;
 import minidraw.standard.*;
@@ -28,7 +32,7 @@ public class ShowWorld {
   
   public static void main(String[] args) {
 
-    Game game = new StubGame1();
+    Game game = new GameImpl(new SemiCiv(), new DeltaWorldLayoutStrategy());
 
     DrawingEditor editor = 
       new MiniDrawApplication( "Paint the HotCiv world map...",  

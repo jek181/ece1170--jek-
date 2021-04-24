@@ -1,9 +1,12 @@
 package hotciv.visual;
 
+import hotciv.factories.SemiCiv;
 import hotciv.framework.City;
 import hotciv.framework.Game;
 import hotciv.framework.Player;
+import hotciv.standard.GameImpl;
 import hotciv.stub.StubGame1;
+import hotciv.variants.deltaciv.DeltaWorldLayoutStrategy;
 import hotciv.view.CityFigure;
 import hotciv.view.GfxConstants;
 import hotciv.view.MapView;
@@ -34,7 +37,7 @@ public class ShowCity {
   
   public static void main(String[] args) {
 
-    Game game = new StubGame1();
+    Game game = new GameImpl(new SemiCiv(), new DeltaWorldLayoutStrategy());
 
     DrawingEditor editor = 
       new MiniDrawApplication( "Click to see city graphics update...",  

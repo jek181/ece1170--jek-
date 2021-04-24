@@ -1,8 +1,11 @@
 package hotciv.visual;
 
+import hotciv.factories.SemiCiv;
 import hotciv.framework.Game;
 import hotciv.framework.Position;
+import hotciv.standard.GameImpl;
 import hotciv.stub.StubGame2;
+import hotciv.variants.deltaciv.DeltaWorldLayoutStrategy;
 import minidraw.framework.*;
 import minidraw.standard.*;
 
@@ -28,7 +31,7 @@ import java.awt.event.MouseEvent;
 public class ShowUpdating {
   
   public static void main(String[] args) {
-    Game game = new StubGame2();
+    Game game = new GameImpl(new SemiCiv(), new DeltaWorldLayoutStrategy());
 
     DrawingEditor editor = 
       new MiniDrawApplication( "Click anywhere to see Drawing updates",  
