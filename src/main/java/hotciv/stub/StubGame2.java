@@ -131,12 +131,64 @@ public class StubGame2 implements Game {
   public int getAge() { return 0; }  
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
-  public void performUnitActionAt( Position p ) {}  
+  public void performUnitActionAt( Position p )
+  {
+    if (p.equals(pos_archer_red) || p.equals(pos_legion_blue))
+    {
+      System.out.println("Unit action performed");
+    }
+  }
 
   public void setTileFocus(Position position) {
     // TODO: setTileFocus implementation pending.
+    Tile t = getTileAt(position);
+    String type = t.getTypeString();
+    Unit u = getUnitAt(position);
+    City c = getCityAt(position);
+
     System.out.println("-- StubGame2 / setTileFocus called.");
-    System.out.println(" *** IMPLEMENTATION PENDING ***");
+    if(type.equals(GameConstants.PLAINS))
+    {
+      System.out.println("This is a plain");
+    }
+    if(type.equals(GameConstants.OCEANS))
+    {
+      System.out.println("This is an ocean");
+    }
+    if(type.equals(GameConstants.FOREST))
+    {
+      System.out.println("This is a forest");
+    }
+    if(type.equals(GameConstants.HILLS))
+    {
+      System.out.println("This is a hill");
+    }
+
+    if(c != null)
+    {
+      Player owner = c.getOwner();
+      int pop = c.getSize();
+      int treasure = c.getTreasury();
+      String work = c.getWorkforceFocus();
+
+      System.out.println("There is a " + owner + "city on this tile");
+      System.out.println("Population = " + pop);
+      System.out.println("Treasury = " + treasure);
+      System.out.println("Work Force Focus is " + work);
+
+    }
+
+    if(u != null)
+    {
+      String unitType = u.getTypeString();
+      Player unitOwner = u.getOwner();
+      int strength = u.getAttackingStrength();
+      int defense = u.getDefensiveStrength();
+      System.out.println("There is a(n) "+ unitOwner + " " + unitType + " on this tile");
+      System.out.println("Attack Strength is " + strength);
+      System.out.println("Defense Strength is " + defense);
+    }
+
   }
 
 }

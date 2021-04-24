@@ -1,12 +1,16 @@
 package hotciv.visual;
 
+import hotciv.factories.SemiCiv;
 import hotciv.framework.Game;
+import hotciv.standard.GameImpl;
 import hotciv.stub.StubGame1;
+import hotciv.variants.deltaciv.DeltaWorldLayoutStrategy;
 import hotciv.view.GfxConstants;
 import hotciv.view.TextFigure;
 import minidraw.framework.*;
 import minidraw.standard.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -31,7 +35,7 @@ public class ShowText {
   
   public static void main(String[] args) {
 
-    Game game = new StubGame1();
+    Game game = new GameImpl(new SemiCiv(), new DeltaWorldLayoutStrategy());
 
     DrawingEditor editor = 
       new MiniDrawApplication( "Click to see age text change...",  
@@ -49,6 +53,7 @@ public class ShowText {
 // real implementation that reads the age from Game.
 class ChangeAgeTool extends NullTool {
   private TextFigure textFigure;
+  Game game = new GameImpl(new SemiCiv(), new DeltaWorldLayoutStrategy());
   public ChangeAgeTool(TextFigure tf) {
     textFigure = tf;
   }
@@ -57,4 +62,5 @@ class ChangeAgeTool extends NullTool {
     count++;
     textFigure.setText( ""+(4000-count*100)+" BC" );
   }
+
 }

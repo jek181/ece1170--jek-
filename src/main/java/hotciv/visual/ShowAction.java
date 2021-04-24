@@ -1,7 +1,11 @@
 package hotciv.visual;
 
+import hotciv.factories.SemiCiv;
 import hotciv.framework.Game;
+import hotciv.standard.GameImpl;
 import hotciv.stub.StubGame2;
+import hotciv.variants.deltaciv.DeltaWorldLayoutStrategy;
+import hotciv.view.ActionTool;
 import minidraw.framework.*;
 import minidraw.standard.*;
 
@@ -24,7 +28,7 @@ import minidraw.standard.*;
 public class ShowAction {
   
   public static void main(String[] args) {
-    Game game = new StubGame2();
+    Game game = new GameImpl(new SemiCiv(), new DeltaWorldLayoutStrategy());
 
     DrawingEditor editor = 
       new MiniDrawApplication( "Shift-Click unit to invoke its action",  
@@ -33,6 +37,6 @@ public class ShowAction {
     editor.showStatus("Shift-Click on unit to see Game's performAction method being called.");
 
     // TODO: Replace the setting of the tool with your ActionTool implementation.
-    editor.setTool( new NullTool() );
+    editor.setTool( new ActionTool(editor, game) );
   }
 }

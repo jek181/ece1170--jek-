@@ -58,7 +58,7 @@ public class DeltaWorldLayoutStrategy implements WorldGeneration {
                 {
                         "...ooMooooo.....",
                         "..ohhoooofffoo..",
-                        ".oooooMooo...oo.",
+                        "ooooooMooo...oo.",
                         ".ooMMMoooo..oooo",
                         "...ofooohhoooo..",
                         ".ofoofooooohhoo.",
