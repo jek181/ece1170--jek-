@@ -55,6 +55,7 @@ public class GameImpl implements Game {
  private ProductionStrategy productionStrategy;
  private PopulationStrategy populationStrategy;
  private List<Battle> battles;
+ private List<GameObserver> observers;
 
 
 
@@ -82,6 +83,7 @@ public class GameImpl implements Game {
     this.cities = world.Cities();
 
     battles = new ArrayList<Battle>();
+    observers = new ArrayList<GameObserver>();
 
   }
 
@@ -217,6 +219,8 @@ public class GameImpl implements Game {
               }
           }
 
+          worldChangedAt(from);
+          worldChangedAt(to);
           return true;
       }
       return false;
@@ -244,6 +248,7 @@ public class GameImpl implements Game {
        firstRound = false;
 
      }
+     turnEnds(playerInTurn, age);
 
   }
 
@@ -251,16 +256,19 @@ public class GameImpl implements Game {
   {
       City c = getCityAt(p);
       c.setWorkforceFocus(balance);
+      worldChangedAt(p);
   }
 
   public void changeProductionInCityAt( Position p, String unitType )
   {
         City c = getCityAt(p);
         c.setProduction(unitType);
+        worldChangedAt(p);
   }
   public void performUnitActionAt( Position p )
   {
       unitActionStrategy.unitAction(p, this);
+      worldChangedAt(p);
   }
 
   //Get cities using the util.lists
@@ -289,6 +297,11 @@ public class GameImpl implements Game {
   public void addCity(Position p, City c)
   {
     cities[p.getRow()][p.getColumn()] = c;
+  }
+
+  public void addUnit(Position p, Unit u)
+  {
+      units[p.getRow()][p.getColumn()] = u;
   }
 
   //Conquer city functions for Beta Winner Strategy
@@ -394,6 +407,16 @@ public class GameImpl implements Game {
                       c.addTreasury(pro.getProduce());
                       c.addFood(pro.getFood());
                       String prod = c.getProduction();
+                     /* if(c.getTreasury() >= unitCost(prod))
+                      {
+                          if(getUnitAt(pos) == null)
+                          {
+                              setUnitAt(pos, new UnitImpl(prod, p));
+                          }
+
+                          c.addTreasury(-unitCost(prod));
+                          worldChangedAt(pos);
+                      }*/
                   }
 
                   int population = c.getSize();
@@ -410,14 +433,50 @@ public class GameImpl implements Game {
       }
   }
 
+  private int unitCost(String type)
+  {
+      if(type.equals(GameConstants.ARCHER))
+      {
+          return 10;
+      }
+      else if(type.equals(GameConstants.LEGION))
+      {
+          return 15;
+      }
+      else if(type.equals(GameConstants.SETTLER))
+      {
+          return 30;
+      }
+      return 0;
+  }
+
     public void addObserver(GameObserver observer)
     {
-
+        observers.add(observer);
     }
 
     public void setTileFocus(Position position)
     {
+        for(GameObserver obs: observers)
+        {
+            obs.tileFocusChangedAt(position);
+        }
+    }
 
+    public void worldChangedAt(Position position)
+    {
+        for(GameObserver obs: observers)
+        {
+            obs.worldChangedAt(position);
+        }
+    }
+
+    public void turnEnds(Player nextPlayer, int age)
+    {
+        for(GameObserver obs: observers)
+        {
+            obs.turnEnds(nextPlayer, age);
+        }
     }
 
 }
