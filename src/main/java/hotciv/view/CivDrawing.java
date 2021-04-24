@@ -136,6 +136,8 @@ public class CivDrawing
   }
 
   protected ImageFigure turnShieldIcon;
+  protected ImageFigure cityShieldIcon;
+  protected ImageFigure unitShieldIcon;
   protected void defineIcons() {
     // TODO: Further development to include rest of figures needed
     turnShieldIcon = 
@@ -145,6 +147,10 @@ public class CivDrawing
     // insert in delegate figure list to ensure graphical
     // rendering.
     delegate.add(turnShieldIcon);
+    cityShieldIcon = new ImageFigure();
+    unitShieldIcon = new ImageFigure();
+    delegate.add(cityShieldIcon);
+    delegate.add(unitShieldIcon);
   }
  
   // === Observer Methods ===
@@ -152,8 +158,14 @@ public class CivDrawing
   public void worldChangedAt(Position pos) {
     // TODO: Remove system.out debugging output
     System.out.println( "CivDrawing: world changes at "+pos);
+    clearSelection();
     // this is a really brute-force algorithm: destroy
     // all known units and build up the entire set again
+    for(Figure fig: unitFigureMap.values())
+    {
+      delegate.remove(fig);
+    }
+
     defineUnitMap();
 
     // TODO: Cities may change on position as well
