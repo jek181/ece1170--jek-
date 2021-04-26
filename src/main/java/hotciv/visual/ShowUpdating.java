@@ -1,10 +1,12 @@
 package hotciv.visual;
 
+import hotciv.factories.BetaFactory;
 import hotciv.factories.SemiCiv;
 import hotciv.framework.Game;
 import hotciv.framework.Position;
 import hotciv.standard.GameImpl;
 import hotciv.stub.StubGame2;
+import hotciv.variants.alphaciv.AlphaWorldLayoutStrategy;
 import hotciv.variants.deltaciv.DeltaWorldLayoutStrategy;
 import minidraw.framework.*;
 import minidraw.standard.*;
@@ -31,7 +33,7 @@ import java.awt.event.MouseEvent;
 public class ShowUpdating {
   
   public static void main(String[] args) {
-    Game game = new GameImpl(new SemiCiv(), new DeltaWorldLayoutStrategy());
+    Game game = new StubGame2();
 
     DrawingEditor editor = 
       new MiniDrawApplication( "Click anywhere to see Drawing updates",  
@@ -84,6 +86,23 @@ class UpdateTool extends NullTool {
     case 4: {
       editor.showStatus( "State change: Inspect Unit at (4,3)" );
       game.setTileFocus(new Position(4,3));
+      break;
+    }
+    case 5: {
+      editor.showStatus( "State change: Unit Action at (4,3)");
+      game.performUnitActionAt(new Position(4,3));
+      break;
+    }
+    case 6: {
+      editor.showStatus( "State change: Inspect Unit at (2,3)" );
+      game.setTileFocus(new Position(3,2));
+      break;
+    }
+    case 7: {
+      editor.showStatus( "State change: Moving settler to (4,3)" );
+      //game.setTileFocus(new Position(4,3));
+      game.moveUnit( new Position(4,3), new Position(5,3) );
+      //game.setTileFocus(new Position(5,3));
       break;
     }
       // TODO: Add more state changes for other things to test

@@ -28,7 +28,7 @@ import minidraw.standard.*;
 public class ShowAction {
   
   public static void main(String[] args) {
-    Game game = new GameImpl(new SemiCiv(), new DeltaWorldLayoutStrategy());
+    Game game = new StubGame2();
 
     DrawingEditor editor = 
       new MiniDrawApplication( "Shift-Click unit to invoke its action",  

@@ -6,6 +6,7 @@ import hotciv.framework.Game;
 import hotciv.framework.Player;
 import hotciv.standard.GameImpl;
 import hotciv.stub.StubGame1;
+import hotciv.stub.StubGame2;
 import hotciv.variants.deltaciv.DeltaWorldLayoutStrategy;
 import hotciv.view.CityFigure;
 import hotciv.view.GfxConstants;
@@ -37,7 +38,7 @@ public class ShowCity {
   
   public static void main(String[] args) {
 
-    Game game = new GameImpl(new SemiCiv(), new DeltaWorldLayoutStrategy());
+    Game game = new StubGame2();
 
     DrawingEditor editor = 
       new MiniDrawApplication( "Click to see city graphics update...",  
