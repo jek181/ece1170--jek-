@@ -133,14 +133,15 @@ public class StubGame2 implements Game {
   public void changeProductionInCityAt( Position p, String unitType ) {}
   public void performUnitActionAt( Position p )
   {
-    if (p.equals(pos_archer_red) || p.equals(pos_legion_blue))
+    if (p.equals(pos_archer_red) || p.equals(pos_legion_blue) || p.equals(pos_settler_red) || p.equals(pos_ufo_red))
     {
-      System.out.println("Unit action performed");
+      System.out.println("CivDrawing: Unit action performed");
     }
   }
 
   public void setTileFocus(Position position) {
     // TODO: setTileFocus implementation pending.
+    gameObserver.tileFocusChangedAt(position);
     Tile t = getTileAt(position);
     String type = t.getTypeString();
     Unit u = getUnitAt(position);

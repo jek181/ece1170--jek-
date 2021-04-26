@@ -6,18 +6,21 @@ import minidraw.standard.NullTool;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.Set;
 
 public class CompositionTool extends NullTool {
 
     private UnitMoveTool unitMoveTool;
     private ActionTool actionTool;
     private EndOfTurnTool endOfTurnTool;
+    private SetFocusTool setFocusTool;
 
     public CompositionTool(DrawingEditor drawingEditor, Game game)
     {
         unitMoveTool = new UnitMoveTool(drawingEditor, game);
         actionTool = new ActionTool(drawingEditor, game);
         endOfTurnTool = new EndOfTurnTool(drawingEditor, game);
+        setFocusTool = new SetFocusTool(drawingEditor, game);
 
     }
 
@@ -26,6 +29,7 @@ public class CompositionTool extends NullTool {
         unitMoveTool.mouseDown(e,x,y);
         actionTool.mouseDown(e,x,y);
         endOfTurnTool.mouseDown(e,x,y);
+        setFocusTool.mouseDown(e,x,y);
     }
 
     public void mouseDrag(MouseEvent e, int x, int y)
@@ -33,6 +37,7 @@ public class CompositionTool extends NullTool {
         unitMoveTool.mouseDrag(e,x,y);
         actionTool.mouseDrag(e,x,y);
         endOfTurnTool.mouseDrag(e,x,y);
+
     }
 
     public void mouseUp(MouseEvent e, int x, int y)
@@ -40,13 +45,12 @@ public class CompositionTool extends NullTool {
         unitMoveTool.mouseUp(e,x,y);
         actionTool.mouseUp(e,x,y);
         endOfTurnTool.mouseUp(e,x,y);
+
     }
 
     public void keyDown(KeyEvent e, int k)
     {
-        unitMoveTool.keyDown(e, k);
         actionTool.keyDown(e, k);
-        endOfTurnTool.keyDown(e, k);
     }
 
     public void mouseMove(MouseEvent e, int x, int y)
@@ -54,5 +58,6 @@ public class CompositionTool extends NullTool {
         unitMoveTool.mouseMove(e,x,y);
         actionTool.mouseMove(e,x,y);
         endOfTurnTool.mouseMove(e,x,y);
+
     }
 }

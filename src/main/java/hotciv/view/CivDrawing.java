@@ -49,16 +49,20 @@ public class CivDrawing
   protected Drawing delegate;
   /** store all moveable figures visible in this drawing = units */
   protected Map<Unit,UnitFigure> unitFigureMap;
+  protected Map<City, CityFigure> cityFigureMap;
 
   /** the Game instance that this CivDrawing is going to render units
    * from */
   protected Game game;
+  protected DrawingEditor editor;
   
   public CivDrawing( DrawingEditor editor, Game game ) {
     super();
     this.delegate = new StandardDrawing();
     this.game = game;
     this.unitFigureMap = new HashMap<>();
+    this.cityFigureMap = new HashMap<>();
+    this.editor = editor;
 
     // register this unit drawing as listener to any game state
     // changes...
@@ -68,6 +72,16 @@ public class CivDrawing
     defineUnitMap();
     // and the set of 'icons' in the status panel
     defineIcons();
+
+
+    defineCityMap();
+
+
+    delegate.add(moveCount);
+    delegate.add(prodFocus);
+    delegate.add(workFocus);
+    delegate.add(ageText);
+
   }
   
   /** The CivDrawing should not allow client side
@@ -121,6 +135,27 @@ public class CivDrawing
     }
   }
 
+  protected void defineCityMap()
+  {
+    for(int x=0; x < GameConstants.WORLDSIZE; x++) {
+      for (int y = 0; y < GameConstants.WORLDSIZE; y++) {
+        Position position = new Position(x, y);
+        Point point = new Point(GfxConstants.getXFromColumn(y), GfxConstants.getYFromRow(x));
+        City city = game.getCityAt(position);
+        if(city != null)
+        {
+           CityFigure cityFigure = new CityFigure(city, point);
+           cityFigure.addFigureChangeListener(this);
+           cityFigureMap.put(city, cityFigure);
+
+           delegate.add(cityFigure);
+        }
+      }
+    }
+  }
+
+
+
   /** remove all unit figures in this
    * drawing, and reset the map (unit->unitfigure).
    * It is important to actually remove the figures
@@ -166,26 +201,115 @@ public class CivDrawing
       delegate.remove(fig);
     }
 
+
     defineUnitMap();
 
+
     // TODO: Cities may change on position as well
+    for(Figure fig: cityFigureMap.values())
+    {
+      delegate.remove(fig);
+    }
+    defineCityMap();
+    workFocus.changed();
   }
 
+  TextFigure ageText = new TextFigure("", new Point(GfxConstants.AGE_TEXT_X, GfxConstants.AGE_TEXT_Y) );
+
   public void turnEnds(Player nextPlayer, int age) {
-    // TODO: Remove system.out debugging output
-    System.out.println( "CivDrawing: turnEnds for "+
-                        nextPlayer+" at "+age );
     String playername = "red";
     if ( nextPlayer == Player.BLUE ) { playername = "blue"; }
     turnShieldIcon.set( playername+"shield",
                         new Point( GfxConstants.TURN_SHIELD_X,
                                    GfxConstants.TURN_SHIELD_Y ) );
-    // TODO: Age output pending
+    ageText.setText("" + age);
+
+    editor.showStatus("CivDrawing: turnEnds for "+
+            nextPlayer+" at "+age);
+
   }
+
+  TextFigure moveCount = new TextFigure("", new Point(GfxConstants.UNIT_COUNT_X, GfxConstants.UNIT_COUNT_Y));
+  ImageFigure prodFocus = new ImageFigure();
+  ImageFigure workFocus = new ImageFigure();
 
   public void tileFocusChangedAt(Position position) {
     // TODO: Implementation pending
-    System.out.println( "Fake it: tileFocusChangedAt "+position );
+    //System.out.println( "Fake it: tileFocusChangedAt "+position );
+
+    if(game.getUnitAt(position) !=  null) {
+      prodFocus.set(GfxConstants.NOTHING, new Point(GfxConstants.CITY_PRODUCTION_X, GfxConstants.CITY_PRODUCTION_Y));
+      workFocus.set(GfxConstants.NOTHING, new Point(GfxConstants.WORKFORCEFOCUS_X, GfxConstants.WORKFORCEFOCUS_Y));
+
+      Unit unit = game.getUnitAt(position);
+      moveCount.setText("" + unit.getMoveCount());
+      String player = "";
+      if (unit.getOwner() == Player.BLUE)
+      {
+        player = "blue";
+      }
+      else if(unit.getOwner() == Player.RED)
+      {
+        player = "red";
+      }
+      unitShieldIcon.set(player + "shield", new Point(GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y));
+      cityShieldIcon.set(GfxConstants.NOTHING, new Point(GfxConstants.CITY_SHIELD_X, GfxConstants.CITY_SHIELD_Y));
+    }
+
+    else if(game.getCityAt(position) != null)
+    {
+      String player = "";
+      String produce = "";
+      String work = "";
+      moveCount.setText("");
+      City city = game.getCityAt(position);
+      if (city.getOwner() == Player.BLUE)
+      {
+        player = "blue";
+      }
+      else if(city.getOwner() == Player.RED)
+      {
+        player = "red";
+      }
+      if(city.getProduction().equals(GameConstants.ARCHER))
+      {
+        produce = "archer";
+      }
+      else if(city.getProduction().equals(GameConstants.SETTLER))
+      {
+        produce = "settler";
+      }
+      else if(city.getProduction().equals(GameConstants.LEGION))
+      {
+        produce = "legion";
+      }
+
+      if(city.getWorkforceFocus().equals(GameConstants.productionFocus))
+      {
+        work = "hammer";
+      }
+      else if(city.getWorkforceFocus().equals(GameConstants.foodFocus))
+      {
+        work = "apple";
+      }
+
+
+      cityShieldIcon.set(player + "shield", new Point(GfxConstants.CITY_SHIELD_X, GfxConstants.CITY_SHIELD_Y));
+      unitShieldIcon.set(GfxConstants.NOTHING, new Point(GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y));
+      prodFocus.set(produce, new Point(GfxConstants.CITY_PRODUCTION_X, GfxConstants.CITY_PRODUCTION_Y));
+      workFocus.set(work, new Point(GfxConstants.WORKFORCEFOCUS_X, GfxConstants.WORKFORCEFOCUS_Y));
+    }
+
+    else if(game.getCityAt(position) == null  && game.getUnitAt(position) ==  null)
+    {
+      moveCount.setText("");
+      prodFocus.set(GfxConstants.NOTHING, new Point(GfxConstants.CITY_PRODUCTION_X, GfxConstants.CITY_PRODUCTION_Y));
+      workFocus.set(GfxConstants.NOTHING, new Point(GfxConstants.WORKFORCEFOCUS_X, GfxConstants.WORKFORCEFOCUS_Y));
+      unitShieldIcon.set(GfxConstants.NOTHING, new Point(GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y));
+      cityShieldIcon.set(GfxConstants.NOTHING, new Point(GfxConstants.CITY_SHIELD_X, GfxConstants.CITY_SHIELD_Y));
+    }
+
+
   }
 
   @Override
@@ -195,6 +319,7 @@ public class CivDrawing
     // entire Drawing.
     defineUnitMap();
     defineIcons();
+    defineCityMap();
     // TODO: Cities pending
   }
 

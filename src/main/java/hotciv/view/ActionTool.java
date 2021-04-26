@@ -33,6 +33,7 @@ public class ActionTool extends NullTool {
         {
             if(game.getUnitAt(position) != null)
             {
+                drawingEditor.showStatus("ActionTool: Unit action performed");
                 game.performUnitActionAt(position);
             }
         }

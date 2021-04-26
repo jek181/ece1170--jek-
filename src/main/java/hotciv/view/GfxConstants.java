@@ -74,6 +74,11 @@ public class GfxConstants {
   public static final String BLUE_SHIELD = "blueshield";
   public static final String NOTHING = "black";
   public static final String REFRESH_BUTTON = "refresh";
+  public static final String APPLE = "apple";
+  public static final String HAMMER = "hammer";
+  public static final String PRODUCE_ARCHER = "archer";
+  public static final String PRODUCE_LEGION = "legion";
+  public static final String PRODUCE_SETTLER = "settler";
 
   /** return the x pixel position on the graphical display
    * for a tile's column position

@@ -4,6 +4,7 @@ import hotciv.factories.SemiCiv;
 import hotciv.framework.Game;
 import hotciv.standard.GameImpl;
 import hotciv.stub.StubGame1;
+import hotciv.stub.StubGame2;
 import hotciv.variants.deltaciv.DeltaWorldLayoutStrategy;
 import hotciv.view.GfxConstants;
 import hotciv.view.TextFigure;
@@ -35,7 +36,7 @@ public class ShowText {
   
   public static void main(String[] args) {
 
-    Game game = new GameImpl(new SemiCiv(), new DeltaWorldLayoutStrategy());
+    Game game = new StubGame2();
 
     DrawingEditor editor = 
       new MiniDrawApplication( "Click to see age text change...",  
